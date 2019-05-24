@@ -32,6 +32,26 @@ set shiftwidth=4
 set expandtab
 set autoindent
 
+set nowrap      " My son has turned into a wrapper!
+if has('win32')
+    " Windows filesystem
+    set directory=$HOME\VimBackups\swaps,$HOME\VimBackups,C:\VimBackups,.
+    set backupdir=$HOME\VimBackups\backups,$HOME\VimBackups,C:\VimBackups,.
+    if exists("&undodir")
+        set undodir=$HOME\VimBackups\undofiles,$HOME\VimBackups,C:\VimBackups,.
+    endif
+    if has("gui_running")
+      set guifont=Inconsolata:h12:cANSI
+    endif
+else
+    " POSIX filesystem
+    set directory=$HOME/.backups/swaps,$HOME/.backups,$HOME/tmp,.
+    set backupdir=$HOME/.backups/backups,$HOME/.backups,$HOME/tmp,.
+    if exists("&undodir")
+        set undodir=$HOME/.backups/undofiles,$HOME/.backups,$HOME/tmp,.
+    endif
+endif
+
 "" Make quick search better
 set nohlsearch
 set incsearch
@@ -61,27 +81,32 @@ endif
 "" Start vim in split mode!
 autocmd VimEnter * wincmd v
 
+let g:netrw_banner=0    " disable banner
+set path+=**            " clever'r completion
+set ignorecase smartcase
+" unfuck whitespace
+nnoremap <F4> :retab<CR>:%s/\s\+$//e<CR><C-o>
+
 """""""""""""
 "KEYBINDINGS"
 """""""""""""
 "" Makefiles
-nnoremap <leader>m :silent make \|redraw!\|copen<cr><cr>
-nnoremap <F6> :silent make clean\|redraw!\|copen<cr><cr>
-nnoremap <F5> :!make run<cr><cr>
+nnoremap <leader>m  :silent make \|redraw!\|copen<cr><cr>
+nnoremap <F6>       :silent make clean\|redraw!\|copen<cr><cr>
+nnoremap <F5>       :!make run<cr><cr>
 "" search and goto functionality
-nnoremap <C-p> :drop **/*
-nnoremap <C-o> <C-w>w
-nnoremap <leader>\ :grep<space>
+nnoremap <C-p>      :drop **/*
+nnoremap <C-o>      <C-w>w
+nnoremap <leader>\  :grep<space>
 "" Make space useful
-noremap <space> v
-noremap <c-space> <c-v>
+noremap <space>     v
+noremap <c-space>   <c-v>
 "" Shortcuts for next result
-nnoremap <C-n> :cn<cr>
-nnoremap <C-l> :cp<cr>
-nnoremap <leader>o :cwindow<cr>
+nnoremap <C-n>      :cn<cr>
+nnoremap <C-l>      :cp<cr>
+nnoremap <leader>o  :cwindow<cr>
 "" Close windows faster
-nnoremap <C-c> :q<cr>
-
+nnoremap <C-c>      :q<cr>
 
 """""""""""""
 "  C & C++  "

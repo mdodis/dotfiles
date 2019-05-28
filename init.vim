@@ -1,3 +1,8 @@
+"" Configuration file for Neovim
+"" I have accumulated all of these from around the
+"" internet, and I don't know vimscript particularly well!
+"" Michael Dodis
+
 "" vim-plug """"""""""""""""""""""""""""
 call plug#begin('~/.vim/plugged')
 Plug 'yuttie/comfortable-motion.vim'
@@ -23,12 +28,12 @@ syntax on
 "" Only use the system clipboard.
 "" Why would _anyone_. Ever. Use. The.
 "" Vim clipboard!?
-set clipboard+=unnamedplus
+set clipboard   +=unnamedplus
 
 "" Make indenting normal
-set tabstop=4
-set softtabstop=4
-set shiftwidth=4
+set tabstop     =4
+set softtabstop =4
+set shiftwidth  =4
 set expandtab
 set autoindent
 
@@ -79,7 +84,7 @@ if executable('ag')
 endif
 
 "" Start vim in split mode!
-autocmd VimEnter * wincmd v
+"autocmd VimEnter * wincmd v
 
 let g:netrw_banner=0    " disable banner
 set path+=**            " clever'r completion
@@ -87,26 +92,64 @@ set ignorecase smartcase
 " unfuck whitespace
 nnoremap <F4> :retab<CR>:%s/\s\+$//e<CR><C-o>
 
+" quickfix
+function! s:redir(cmd)
+  redir => res
+  execute a:cmd
+  redir END
+
+  return res
+endfunction
+
+function! s:toggle_qf_list()
+  let bufs = s:redir('buffers')
+  let l = matchstr(split(bufs, '\n'), '[\t ]*\d\+[\t ]\+.\+[\t ]\+"\[Quickfix\ List\]"')
+
+  let winnr = -1
+  if !empty(l)
+    let bufnbr = matchstr(l, '[\t ]*\zs\d\+\ze[\t ]\+')
+    let winnr = bufwinnr(str2nr(bufnbr, 10))
+  endif
+
+  if !empty(getqflist())
+    if winnr == -1
+      copen
+    else
+      cclose
+    endif
+  endif
+endfunction
+
+"" InsertTimeofDay
+function! InsertTimeofDay()
+    execute 'read !date "+\%D \%H:\%M"'
+endfunction
+command IDTime call InsertTimeofDay()
+
 """""""""""""
 "KEYBINDINGS"
 """""""""""""
+"" Toggle quickfix
+nnoremap <C-g><C-o> <Plug>window:quickfix:loop
 "" Makefiles
-nnoremap <leader>m  :silent make \|redraw!\|copen<cr><cr>
-nnoremap <F6>       :silent make clean\|redraw!\|copen<cr><cr>
-nnoremap <F5>       :!make run<cr><cr>
+nnoremap <leader>m      :silent make \|redraw!\|copen<cr><cr>
+nnoremap <F6>           :silent make clean\|redraw!\|copen<cr><cr>
+nnoremap <F5>           :!make run<cr><cr>
 "" search and goto functionality
-nnoremap <C-p>      :drop **/*
-nnoremap <C-o>      <C-w>w
-nnoremap <leader>\  :grep<space>
+nnoremap <C-p>          :drop **/*
+nnoremap <C-o>          <C-w>w
+nnoremap <leader>\      :grep<space>
 "" Make space useful
-noremap <space>     v
-noremap <c-space>   <c-v>
+noremap <space>         v
+noremap <c-space>       <c-v>
 "" Shortcuts for next result
-nnoremap <C-n>      :cn<cr>
-nnoremap <C-l>      :cp<cr>
-nnoremap <leader>o  :cwindow<cr>
+nnoremap <C-n>          :cn<cr>
+nnoremap <C-l>          :cp<cr>
+nnoremap <leader>o      :cwindow<cr>
 "" Close windows faster
-nnoremap <C-c>      :q<cr>
+nnoremap <C-c>          :q<cr>
+"" Quickfix Window from :: https://gist.github.com/tacahiroy/3984661
+nnoremap <silent> qo    :<C-u>silent call <SID>toggle_qf_list()<Cr>
 
 """""""""""""
 "  C & C++  "
@@ -116,3 +159,5 @@ nnoremap <C-c>      :q<cr>
 "" then just do the drop; on \-h
 autocmd BufNewFile,BufEnter * :let g:AA_switch=expand("%:t:r")
 nnoremap <leader>h :drop **/<C-r>=g:AA_switch<cr>
+
+autocmd Filetype c,cpp nnoremap <buffer> <leader>c I//<esc>

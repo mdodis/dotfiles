@@ -101,6 +101,7 @@ function! s:redir(cmd)
   return res
 endfunction
 
+"" Toggle quickfix list
 function! s:toggle_qf_list()
   let bufs = s:redir('buffers')
   let l = matchstr(split(bufs, '\n'), '[\t ]*\d\+[\t ]\+.\+[\t ]\+"\[Quickfix\ List\]"')
@@ -132,8 +133,8 @@ command IDTime call InsertTimeofDay()
 "" Toggle quickfix
 nnoremap <C-g><C-o> <Plug>window:quickfix:loop
 "" Makefiles
-nnoremap <leader>m      :silent make \|redraw!\|copen<cr><cr>
-nnoremap <F6>           :silent make clean\|redraw!\|copen<cr><cr>
+nnoremap <leader>m      :silent make \|redraw!<cr>
+nnoremap <F6>           :silent make clean\|redraw!
 nnoremap <F5>           :!make run<cr><cr>
 "" search and goto functionality
 nnoremap <C-p>          :drop **/*
@@ -157,7 +158,19 @@ nnoremap <silent> qo    :<C-u>silent call <SID>toggle_qf_list()<Cr>
 "" Help with going to corresponding file
 "" On _each_ enter file, set global var to file base name
 "" then just do the drop; on \-h
-autocmd BufNewFile,BufEnter * :let g:AA_switch=expand("%:t:r")
-nnoremap <leader>h :drop **/<C-r>=g:AA_switch<cr>
 
-autocmd Filetype c,cpp nnoremap <buffer> <leader>c I//<esc>
+augroup markdown_preview_group
+autocmd BufNewFile,BufEnter *       :let g:AA_switch=expand("%:t:r")
+autocmd Filetype            c,cpp   nnoremap <buffer> <leader>c I//<esc>
+autocmd Filetype            c,cpp   nnoremap <leader>h :drop **/<C-r>=g:AA_switch<cr>
+augroup END
+
+"""""""""""""
+" Markdown  "
+"""""""""""""
+"" Github flavored markdown with md2pdf [https://github.com/walwe/md2pdf]
+"" Preview setup with zathura 
+augroup markdown_preview_group
+autocmd Filetype            markdown setlocal makeprg=md2pdf\ %
+autocmd Filetype            markdown nnoremap <f5> :!zathura %:r.pdf & disown<CR><CR>
+augroup END

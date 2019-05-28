@@ -51,4 +51,5 @@ numlockx &
 dunst &
 discord &
 firefox &
+thunderbird &
 dbus-launch dwm

@@ -1,0 +1,7 @@
+rm picture_take 2> /dev/null
+TIME_DATE=picture_take
+ffmpeg -f x11grab -video_size 3600x1080 -i $DISPLAY -vframes 1 $TIME_DATE.png
+convert -blur 0x1 $TIME_DATE.png $TIME_DATE.blur.png
+rm $TIME_DATE.png
+i3lock -i $TIME_DATE.blur.png
+rm $TIME_DATE.blur.png

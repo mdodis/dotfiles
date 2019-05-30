@@ -1,0 +1,39 @@
+#!/bin/bash
+
+# pamixer to get: muted (display different speaker emoji),
+# and current sound volume
+function sound_status {
+    VOL=$(pamixer --get-volume)
+    MUTED=$(pamixer --get-mute)
+    case $MUTED in
+        "true" )  echo -n 🔇;;
+        "false")  echo -n 🔊;;
+    esac
+
+    echo -n " $VOL%" 
+}
+
+# get current assigned ip address in LAN network
+function getip {
+    echo -n $(ip route | grep enp3s0 | sed 1q | awk '{print $3}')
+}
+
+# get current layout (hardcoded)
+function getlayout {
+    case "$(xset -q|grep LED| awk '{ print $10 }')" in
+      "00000002") KBD="US" ;;
+      "00001002") KBD="GR" ;;
+      *) KBD="unknown" ;;
+    esac
+    echo -n $KBD
+}
+
+# /proc/status narrowed down to cpu usage
+function cpuavg {
+    printf "%.2f\n" $(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage}')
+}
+
+while true; do
+    xsetroot -name "CPU: $(cpuavg)%  🌐$(getip) 🖮 $(getlayout) $(sound_status) 📆 $(date "+%D  🕒%H:%M") |$(hostname)|"
+    sleep 1s
+done

@@ -1,0 +1,4 @@
+#!/bin/bash
+OPTION=$(find $HOME/scripts/_screen -regextype egrep -iregex ".*capture_.*" -printf "%f\n" | dmenu -i -l 3)
+sleep 1
+$HOME/scripts/_screen/$OPTION

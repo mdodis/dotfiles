@@ -1,0 +1,1 @@
+notify-send "Transmission Daemon" "$TR_TORRENT_NAME has finished"

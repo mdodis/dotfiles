@@ -36,8 +36,9 @@ set softtabstop =4
 set shiftwidth  =4
 set expandtab
 set autoindent
-
 set nowrap      " My son has turned into a wrapper!
+
+
 if has('win32')
     " Windows filesystem
     set directory=$HOME\VimBackups\swaps,$HOME\VimBackups,C:\VimBackups,.
@@ -48,6 +49,7 @@ if has('win32')
     if has("gui_running")
       set guifont=Inconsolata:h12:cANSI
     endif
+    let g:cxxcompiler = "msvc"
 else
     " POSIX filesystem
     set directory=$HOME/.backups/swaps,$HOME/.backups,$HOME/tmp,.
@@ -55,6 +57,7 @@ else
     if exists("&undodir")
         set undodir=$HOME/.backups/undofiles,$HOME/.backups,$HOME/tmp,.
     endif
+    let g:cxxcompiler = "gcc"
 endif
 
 "" Make quick search better
@@ -125,13 +128,13 @@ endfunction
 function! InsertTimeofDay()
     execute 'read !date "+\%D \%H:\%M"'
 endfunction
-command IDTime call InsertTimeofDay()
+command ITDay call InsertTimeofDay()
 
 """""""""""""
 "KEYBINDINGS"
 """""""""""""
 "" Toggle quickfix
-nnoremap <C-g><C-o> <Plug>window:quickfix:loop
+"nnoremap <C-g><C-o> <Plug>window:quickfix:loop
 "" Makefiles
 nnoremap <leader>m      :silent make \|redraw!<cr>
 nnoremap <F6>           :silent make clean\|redraw!
@@ -146,11 +149,10 @@ noremap <c-space>       <c-v>
 "" Shortcuts for next result
 nnoremap <C-n>          :cn<cr>
 nnoremap <C-l>          :cp<cr>
-nnoremap <leader>o      :cwindow<cr>
 "" Close windows faster
 nnoremap <C-c>          :q<cr>
 "" Quickfix Window from :: https://gist.github.com/tacahiroy/3984661
-nnoremap <silent> qo    :<C-u>silent call <SID>toggle_qf_list()<Cr>
+nnoremap <silent> <leader>o    :<C-u>silent call <SID>toggle_qf_list()<Cr>
 
 """""""""""""
 "  C & C++  "
@@ -159,10 +161,21 @@ nnoremap <silent> qo    :<C-u>silent call <SID>toggle_qf_list()<Cr>
 "" On _each_ enter file, set global var to file base name
 "" then just do the drop; on \-h
 
-augroup markdown_preview_group
-autocmd BufNewFile,BufEnter *       :let g:AA_switch=expand("%:t:r")
-autocmd Filetype            c,cpp   nnoremap <buffer> <leader>c I//<esc>
-autocmd Filetype            c,cpp   nnoremap <leader>h :drop **/<C-r>=g:AA_switch<cr>
+function! SetCXXErrformat()
+    if g:cxxcompiler == "gcc"
+        setlocal errorformat="%*[^"]"%f"%*\D%l: %m,"%f"%*\D%l: %m,%-G%f:%l: (Each undeclared identifier is reported only once,%-G%f:%l: for each function it appears in.),%-GIn file included from %f:%l:%c:,%-GIn file included from %f:%l:%c\,,%-GIn file included from %f:%l:%c,%-GIn file included from %f:%l,%-G%*[ ]from %f:%l:%c,%-G%*[ ]from %f:%l:,%-G%*[ ]from %f:%l\,,%-G%*[ ]from %f:%l,%f:%l:%c:%m,%f(%l):%m,%f:%l:%m,"%f"\,line %l%*\D%c%*[^ ] %m,%D%*\a[%*\d]: Entering directory %*[`']%f',%X%*\a[%*\d]: Leaving directory %*[`']%f',%D%*\a: Entering directory %*[`']%f',%X%*\a: Leaving directory %*[`']%f',%DMaking %*\a in %f,%f|%l| %m"
+    else
+        setlocal errorformat=%*[0-9]%*[>]\ %#%f(%l):\ %m
+    endif
+endfunction
+
+augroup group_c_cpp
+    autocmd!
+    autocmd BufNewFile,BufEnter *.c,*.cpp,*.h,*.hpp,*.cc    :let g:AA_switch=expand("%:t:r")
+    autocmd Filetype            c,cpp                       nnoremap <buffer> <leader>c I//<esc>
+    autocmd Filetype            c,cpp                       nnoremap <leader>h :drop **/<C-r>=g:AA_switch<cr>
+
+    autocmd Filetype            c,cpp                       :call SetCXXErrformat()
 augroup END
 
 """""""""""""
@@ -170,7 +183,8 @@ augroup END
 """""""""""""
 "" Github flavored markdown with md2pdf [https://github.com/walwe/md2pdf]
 "" Preview setup with zathura 
-augroup markdown_preview_group
-autocmd Filetype            markdown setlocal makeprg=md2pdf\ %
-autocmd Filetype            markdown nnoremap <f5> :!zathura %:r.pdf & disown<CR><CR>
+augroup group_markdown_preview
+    autocmd!
+    autocmd Filetype            markdown                    setlocal makeprg=md2pdf\ %
+    autocmd Filetype            markdown                    nnoremap <f5> :!zathura %:r.pdf & disown<CR><CR>
 augroup END

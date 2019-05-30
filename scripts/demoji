@@ -1,0 +1,4 @@
+#!/bin/bash
+EMOJI=$(cat $HOME/scripts/emoji | dmenu -i -l 30 | awk '{print $1}' |tr -d "\n\r")
+echo -n $EMOJI | xclip -i -selection clipboard
+notify-send "Emoji: $EMOJI copied to clipboard."

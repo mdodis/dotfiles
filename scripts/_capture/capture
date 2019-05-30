@@ -1,0 +1,1 @@
+ffmpeg -f x11grab -s $1 -i :0.0+$2 $HOME/Videos/$(date +%d-%b-%g_%k-%m-%S).mkv

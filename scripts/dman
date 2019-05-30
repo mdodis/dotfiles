@@ -1,0 +1,8 @@
+# #!/bin/bash
+# man -k . | awk '{print $2,$1}' | tr -d "()" | dmenu -l 30 | xargs man -Tpdf | zathura -
+SL_FILE="$(man -k . | dmenu -i -l 30 | tr -d "()" | awk '{print $2,$1}')"
+
+if [[ -z "${SL_FILE}" ]]; then
+    exit 0
+fi
+man -Tpdf ${SL_FILE} | zathura -

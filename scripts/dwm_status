@@ -10,7 +10,7 @@ function sound_status {
         "false")  echo -n 🔊;;
     esac
 
-    echo -n " $VOL%" 
+    echo -n " $VOL%"
 }
 
 # get current assigned ip address in LAN network
@@ -33,7 +33,14 @@ function cpuavg {
     printf "%.2f\n" $(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage}')
 }
 
+function minikubestat {
+    mstatus=$(minikube status | grep host)
+    if [[ $mstatus == *"Running"* ]]; then
+        echo kube
+    fi
+}
+
 while true; do
-    xsetroot -name "CPU: $(cpuavg)%  🌐$(getip) 🖮 $(getlayout) $(sound_status) 📆 $(date "+%D  🕒%H:%M") |$(hostname)|"
+    xsetroot -name "$(minikubestat) CPU: $(cpuavg)%  🌐$(getip) 🖮 $(getlayout) $(sound_status) 📆 $(date "+%d/%m/%y 🕒 %H:%M") 💻 $(hostname)"
     sleep 1s
 done

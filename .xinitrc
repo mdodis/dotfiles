@@ -48,7 +48,7 @@ feh --bg-scale "/home/miked/Pictures/Wallpapers/Hyper Beast Dark.png"
 sh $HOME/scripts/dwm_status &
 
 numlockx &
-dunst &
+#dunst &
 discord &
 firefox &
 thunderbird &

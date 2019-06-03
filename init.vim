@@ -189,6 +189,11 @@ nnoremap <C-n>          :cn<cr>
 nnoremap <C-p>          :cp<cr>
 "" Close windows faster
 nnoremap <C-c>          :q<cr>
+
+nnoremap <C-f>          /
+nnoremap <C-s>          :wa<cr>
+noremap <C-k>           {
+noremap <C-j>           }
 "" NOTE:Quickfix Window from: https://gist.github.com/tacahiroy/3984661
 nnoremap <silent> <leader>o    :<C-u>silent call <SID>toggle_qf_list()<Cr>
 
@@ -252,7 +257,7 @@ augroup END
 
 "" Colorscheme
 
-
+set termguicolors
 " -----------------------------------------------------------------------------
 " File: gruvbox.vim
 " Description: Retro groove color scheme for Vim

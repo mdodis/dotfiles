@@ -1,9 +1,11 @@
 #!/bin/sh
-
+# NOTE(mdodis): I can't for the life of me figure out how to run .desktop files from firefox
+# So, I just edited the desktop entry for firefox in order to make this work, by
+# prepending /usr/bin/env to everything
 # Mimeapp script for adding torrent to transmission-daemon, but will also start the daemon first if not running.
 
 # transmission-daemon sometimes fails to take remote requests in its first moments.
 
-ps aux | grep 'transmission-daemon$' || (transmission-daemon && notify-send "Starting transmission daemon..." && sleep 3 && pkill -RTMIN+7 i3blocks)
+pgrep -x transmission-da || (transmission-daemon && notify-send "Starting transmission daemon..." && sleep 3)
 
 transmission-remote -a "$@" && notify-send "🔽 Torrent added."

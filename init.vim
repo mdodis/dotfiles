@@ -10,37 +10,58 @@
 " offseted line numbers, they are useless. Look at the bottom right instead.
 " The only plugin currently is comfortable motion. For the looks obviously.
 " Disable as needed.
-"
+
+" Tested On two linux machines (Arch and Fedora), works with zero
+" extra configuration (st and gnome-terminal)
+
 " SHORTCUTS:
 " <leader>m : usually the equivalent make command
-" <F5>      : the "run" command
+" <F5>      : The "run" command
 " <leader>\ : Search with silver searcher
-" <C-n>     : show next result in quickfix
-" <C-p>     : show previous result in quickfix
-" <leader>o : toggle quickfix window (really useful for me)
+" <C-n>     : Show next result in quickfix
+" <C-p>     : Show previous result in quickfix
+" <leader>o : Toggle quickfix window (really useful for me)
 " <C-o>     : Quick goto file (or buffer if it exists)
 " <leader>h : Hack to make switching from header to source easier;
-"
+
 " SNIPPETS:
 " I have a difficult time typing some char sequences in C
 " for example the for loop, or even better a cast to a pointer.
 " They require Shift+<char> 3 times! now just type: 2pcs
-"
+
 " UPDATE: 05/31/19
 " * Removed Lightline plugin, for portability reasons
 " * Added "snippet" support (leader key is 2)
 " - Considering removing comfortable_motion as well
-"
+
 " UPDATE: 06/02/19
 " * Removed comfortable_motion
 
-"" Line numbers aren't useful
+" UPDATE: 06/03/19
+" * Added C-j C-k to move between paragraphs
+" * Added C-s to save everything
+" * Added C-f to search (just in case I get used to it)
+" * Added mouse=a to enable visual mode mouse
+" * Added simple netrw config to open "explorer" tree.
+"         I don't know were I'd use this, but oh well.
+"         Just for ricing's sake I guess.
+" * Added folding because I just learned about it
+
+" COMMON: {{{
+autocmd BufWritePre * %s/\s\+$//e
 set nonumber
+set showcmd
+set cursorline
+set mouse=a
 syntax on
 " Only use the system clipboard.
 "" Why would _anyone_. Ever. Use. The.
 "" Vim clipboard!?
 set clipboard   +=unnamedplus
+
+"" Make quick search better
+set nohlsearch
+set incsearch
 
 "" Make indenting normal
 set tabstop     =4
@@ -49,12 +70,6 @@ set shiftwidth  =4
 set expandtab
 set autoindent
 set nowrap      " My son has turned into a wrapper!
-
-
-"" NOTE: Smoother scrolling
-map <C-U> 20<C-Y>
-map <C-D> 20<C-E>
-
 
 if has('win32')
     " Windows filesystem
@@ -77,10 +92,8 @@ else
     let g:cxxcompiler = "gcc"
 endif
 
-"" Make quick search better
-set nohlsearch
-set incsearch
-
+" }}}
+" STATUSLINE: {{{
 "" Statusline Config, change dictionairy as needed
 "" NOTE: Stolen from: https://gist.github.com/meskarune/57b613907ebd1df67eb7bdb83c6e6641
 let g:currentmode={
@@ -102,11 +115,7 @@ set statusline+=%2*\ %{''.(&fenc!=''?&fenc:&enc).''}     " Encoding
 set statusline+=\ (%{&ff})                               " FileFormat (dos/unix..)
 set statusline+=%=                                       " Right Side
 set statusline+=%3*│                                     " Separator
-set statusline+=%1*\ %02l/%L\ (%3p%%)\                   " Line number / total lines, percentage of document
-hi User1 ctermfg=007 ctermbg=239 guibg=#4e4e4e guifg=#adadad
-hi User2 ctermfg=007 ctermbg=236 guibg=#303030 guifg=#adadad
-hi User3 ctermfg=236 ctermbg=236 guibg=#303030 guifg=#303030
-hi User4 ctermfg=239 ctermbg=239 guibg=#4e4e4e guifg=#4e4e4e
+set statusline+=%1*\ %c\|%02l/%L\ (%3p%%)\                   " Line number / total lines, percentage of document
 
 set wildmenu
 "" Ignore common non-text files
@@ -114,7 +123,8 @@ set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png,*.ico     " Images
 set wildignore+=*.pdf,*.psd                             " Documents
 set wildignore+=*.so,*.o,*.lib,*.dll,*.pdb              " object files
 set wildignore+=node_modules/*,bower_components/*       "directories
-
+" }}}
+" GREPING: {{{
 "" Use the Silver Searcher
 if executable('ag')
   " Use ag over grep
@@ -126,11 +136,34 @@ if executable('ag')
   " ag is fast enough that CtrlP doesn't need to cache
   let g:ctrlp_use_caching = 0
 endif
+" }}}
+" EXTRA: {{{
+"" netrw config
+" NOTE: pretty useless, but will keep.
+" thanks to: https://vi.stackexchange.com/questions/10988/toggle-explorer-windo://vi.stackexchange.com/questions/10988/toggle-explorer-window
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 20
+let g:NetrwIsOpen=0
 
-"" Start vim in split mode!
-"autocmd VimEnter * wincmd v
+function! ToggleNetrw()
+    if g:NetrwIsOpen
+        let i = bufnr("$")
+        while (i >= 1)
+            if (getbufvar(i, "&filetype") == "netrw")
+                silent exe "bwipeout " . i
+            endif
+            let i-=1
+        endwhile
+        let g:NetrwIsOpen=0
+    else
+        let g:NetrwIsOpen=1
+        silent Lexplore
+    endif
+endfunction
 
-let g:netrw_banner=0    " disable banner
 set path+=**            " clever'r completion
 set ignorecase smartcase
 
@@ -168,14 +201,10 @@ function! InsertTimeofDay()
     execute 'read !date "+\%D \%H:\%M"'
 endfunction
 command! ITDay call InsertTimeofDay()
-
-"""""""""""""
-"KEYBINDINGS"
-"""""""""""""
+" }}}
+" KEYMAPS: {{{
 "" Makefiles
 nnoremap <leader>m      :silent make \|redraw!<cr>
-nnoremap <F6>           :silent make clean\|redraw!
-nnoremap <F5>           :!make run<cr><cr>
 "" search and goto functionality
 nnoremap <C-o>          :drop **/*
 nnoremap <leader>\      :grep<space>
@@ -190,22 +219,27 @@ nnoremap <C-p>          :cp<cr>
 "" Close windows faster
 nnoremap <C-c>          :q<cr>
 
-nnoremap <C-f>          /
 nnoremap <C-s>          :wa<cr>
 noremap <C-k>           {
 noremap <C-j>           }
+" move to beginning/end of line
+nnoremap B ^
+nnoremap E $
+" $/^ doesn't do anything
+nnoremap $ <nop>
+nnoremap ^ <nop>
+
+"" NOTE: Smoother scrolling
+map <C-U> 20<C-Y>
+map <C-D> 20<C-E>
+
 "" NOTE:Quickfix Window from: https://gist.github.com/tacahiroy/3984661
 nnoremap <silent> <leader>o    :<C-u>silent call <SID>toggle_qf_list()<Cr>
 
-autocmd BufWritePre * %s/\s\+$//e
-
-"""""""""""""
-"  C & C++  "
-"""""""""""""
-"" Help with going to corresponding file
-"" On _each_ enter file, set global var to file base name
-"" then just do the drop; on \-h
-
+" Add your own mapping. For example:
+noremap <silent> <C-B> :call ToggleNetrw()<CR>
+" }}}
+" CPP: {{{
 function! SetCXXErrformat()
     if g:cxxcompiler == "gcc"
         " copied from default errorformat
@@ -231,15 +265,15 @@ augroup group_c_cpp
     autocmd Filetype            c,cpp                       nnoremap <buffer> <leader>c I//<esc>
     autocmd Filetype            c,cpp                       nnoremap <leader>h :drop **/<C-r>=g:AA_switch<cr>
     autocmd Filetype            c,cpp                       :call SetCXXErrformat()
+    autocmd Filetype            c,cpp                       setlocal makeprg=make
 
+    autocmd Filetype            c,cpp                       :nnoremap <F5> :!make run > output & disown<cr><cr>
+    autocmd Filetype            c,cpp                       :nnoremap <F6> :silent make clean\|redraw!
     " NOTE: comment this to disable "snippets"
     autocmd Filetype            c,cpp                       call BindCSnippets()
 augroup END
-
-
-"""""""""""""
-" Markdown  "
-"""""""""""""
+" }}}
+" Markdown: {{{
 "" Github flavored markdown with md2pdf [https://github.com/walwe/md2pdf]
 "" Preview setup with zathura
 augroup group_markdown_preview
@@ -254,10 +288,15 @@ augroup group_highlight
     autocmd WinEnter,VimEnter * :silent! call matchadd('Todo', 'TODO', -1)
     autocmd WinEnter,VimEnter * :silent! call matchadd('Question', 'NOTE', -1)
 augroup END
+" }}}
 
-"" Colorscheme
 
-set termguicolors
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"                        COLORSCHEME
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set termguicolors                   " Better color support with Neovim
+let g:gruvbox_invert_selection=0    " fix visual mode selection
+
 " -----------------------------------------------------------------------------
 " File: gruvbox.vim
 " Description: Retro groove color scheme for Vim

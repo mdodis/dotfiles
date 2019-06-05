@@ -1,0 +1,15 @@
+#!/bin/bash
+XRES=`xwininfo`
+#WWIDTH=$(echo $XRES | grep Width)
+#WWIDTH=echo $XWRES | grep Width
+#WHEIGHT=echo $XWRES| grep Height
+
+WWIDTH=`echo "$XRES" | grep Width | sed 's/.*://' | tr -d " "`
+WHEIGHT=`echo "$XRES" | grep Height | sed 's/.*://' | tr -d " "`
+WAULX=`echo "$XRES" | grep "Absolute upper-left X" | sed 's/.*://' | tr -d " "`
+WAULY=`echo "$XRES" | grep "Absolute upper-left Y" | sed 's/.*://' | tr -d " "`
+echo "$WWIDTH"x"$WHEIGHT"
+#echo "$WHEIGHT"
+echo "$WAULX"x"$WAULY"
+#echo "$WAULY"
+$HOME/scripts/_capture/capture "$WWIDTH"x"$WHEIGHT" "$WAULX"x"$WAULY"

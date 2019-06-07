@@ -35,7 +35,7 @@ export NVIM_TUI_ENABLE_TRUE_COLOR=1
 EDITOR="/usr/bin/nvim"
 
 alias l="ls -al"
-alias vi=vim ##novi
+alias vi=nvim ##novi
 tput smkx ## st delete key
 
 if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then

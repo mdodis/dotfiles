@@ -15,16 +15,16 @@ function sound_status {
 
 # get current assigned ip address in LAN network
 function getip {
-    echo -n $(ip route | grep enp3s0 | sed 1q | awk '{print $3}')
+    echo -n $(ip route | grep default | sed 1q | awk '{print $3}')
 }
 
 # get current layout (hardcoded)
 function getlayout {
     case "$(xset -q|grep LED| awk '{ print $10 }')" in
-      "00000002") KBD="US" ;;
-      "00000003") KBD="^US" ;;
-      "00001002") KBD="GR" ;;
-      "00001003") KBD="^GR" ;;
+      "00000000") KBD="US" ;;
+      "00000001") KBD="^US" ;;
+      "00001000") KBD="GR" ;;
+      "00001001") KBD="^GR" ;;
       *) KBD="unknown" ;;
     esac
     echo -n $KBD
@@ -36,13 +36,22 @@ function cpuavg {
 }
 
 function minikubestat {
-    mstatus=$(minikube status | grep host)
-    if [[ $mstatus == *"Running"* ]]; then
-        echo kube
+    if [[ ! -z "$(command -v minikube)" ]]; then
+        mstatus=$(minikube status | grep host)
+        if [[ $mstatus == *"Running"* ]]; then
+            echo kube
+        fi
     fi
 }
 
+function bright {
+    xbacklight -get | xargs printf "%.0f"
+}
+
+function bat {
+    echo -n $(acpi -b | sed 1q | awk '{print $4}' | tr -d ",")
+}
 while true; do
-    xsetroot -name "$(minikubestat) CPU: $(cpuavg)%  🌐$(getip) 🖮 $(getlayout) $(sound_status) 📆 $(date "+%d/%m/%y 🕒 %H:%M") 💻 $(hostname)"
+    xsetroot -name "$(minikubestat) CPU: $(cpuavg)%  🌐 $(getip) 🖮 $(getlayout) $(sound_status) | $(bat) | 📆 $(date "+%d/%m/%y 🕒 %H:%M") 💻 $(bright)"
     sleep 1s
 done

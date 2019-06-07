@@ -38,7 +38,10 @@ function minikubestat {
 }
 
 function bright {
-    xbacklight -get | xargs printf "%.0f"
+    BRIGHT=$(xbacklight -get | xargs printf "%.0f")
+    if [[ ! -z "$BRIGHT" ]]; then
+        echo -n "$BRIGHT"
+    fi
 }
 
 function bat {

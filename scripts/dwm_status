@@ -49,7 +49,9 @@ function bright {
 }
 
 function bat {
-    echo -n $(acpi -b | sed 1q | awk '{print $4}' | tr -d ",")
+    if [[ ! -z"$(command -v acpi)" ]]; then
+        echo -n $(acpi -b | sed 1q | awk '{print $4}' | tr -d ",")
+    fi
 }
 while true; do
     xsetroot -name "$(minikubestat) CPU: $(cpuavg)%  🌐 $(getip) 🖮 $(getlayout) $(sound_status) | $(bat) | 📆 $(date "+%d/%m/%y 🕒 %H:%M") 💻 $(bright)"

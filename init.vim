@@ -223,11 +223,11 @@ nnoremap <C-s>          :wa<cr>
 noremap <C-k>           {
 noremap <C-j>           }
 " move to beginning/end of line
-nnoremap B ^
-nnoremap E $
-" $/^ doesn't do anything
-nnoremap $ <nop>
-nnoremap ^ <nop>
+"nnoremap B ^
+"nnoremap E $
+"" $/^ doesn't do anything
+"nnoremap $ <nop>
+"nnoremap ^ <nop>
 
 "" NOTE: Smoother scrolling
 map <C-U> 20<C-Y>

@@ -46,7 +46,7 @@ function bright {
 
 function bat {
     if [[ ! -z "$(command -v acpi)" ]]; then
-        echo -n ⚡ $(acpi -b | sed 1q | awk '{print $4}' | tr -d ",")
+        echo -n ⚡ $(acpi -b | awk '{print $4}' | tr -d ",")
     fi
 }
 while true; do

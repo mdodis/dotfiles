@@ -15,7 +15,7 @@ function sound_status {
 
 # get current assigned ip address in LAN network
 function getip {
-    echo -n $(ip route | grep default | sed 1q | awk '{print $9}')
+    hostname -i | awk '{print $1}'
 }
 
 # get current layout (hardcoded)

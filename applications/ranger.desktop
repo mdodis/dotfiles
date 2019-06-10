@@ -16,7 +16,7 @@ Comment=File Manager
 Path=/home/miked/
 
 # The executable of the application, possibly with arguments.
-Exec=st -e "/usr/bin/ranger"
+Exec=st -e "/usr/bin/ranger" -t "ranger"
 
 # The name of the icon that will be used to display this entry
 

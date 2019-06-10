@@ -49,10 +49,8 @@ sh $HOME/scripts/dwm_status &
 
 numlockx &
 #dunst &
-discord &
 dex /usr/share/applications/firefox.desktop &
 thunderbird &
 dbus-launch dwm
 
 
-flatpak run com.skype.Client

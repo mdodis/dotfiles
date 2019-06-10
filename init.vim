@@ -23,6 +23,8 @@
 " <leader>o : Toggle quickfix window (really useful for me)
 " <C-o>     : Quick goto file (or buffer if it exists)
 " <leader>h : Hack to make switching from header to source easier;
+" Of course, by default the leader key is \, which I've kept, because
+" it reminds me that it's there
 
 " SNIPPETS:
 " I have a difficult time typing some char sequences in C
@@ -46,6 +48,7 @@
 "         I don't know were I'd use this, but oh well.
 "         Just for ricing's sake I guess.
 " * Added folding because I just learned about it
+" * Removed netrw stuff, it caused problems with exiting
 
 " COMMON: {{{
 autocmd BufWritePre * %s/\s\+$//e
@@ -115,7 +118,7 @@ set statusline+=%2*\ %{''.(&fenc!=''?&fenc:&enc).''}     " Encoding
 set statusline+=\ (%{&ff})                               " FileFormat (dos/unix..)
 set statusline+=%=                                       " Right Side
 set statusline+=%3*│                                     " Separator
-set statusline+=%1*\ %c\|%02l/%L\ (%3p%%)\                   " Line number / total lines, percentage of document
+set statusline+=%1*\ %c\:%02l/%L\ (%3p%%)\                   " Line number / total lines, percentage of document
 
 set wildmenu
 "" Ignore common non-text files
@@ -138,32 +141,6 @@ if executable('ag')
 endif
 " }}}
 " EXTRA: {{{
-"" netrw config
-" NOTE: pretty useless, but will keep.
-" thanks to: https://vi.stackexchange.com/questions/10988/toggle-explorer-windo://vi.stackexchange.com/questions/10988/toggle-explorer-window
-let g:netrw_banner = 0
-let g:netrw_liststyle = 3
-let g:netrw_browse_split = 4
-let g:netrw_altv = 1
-let g:netrw_winsize = 20
-let g:NetrwIsOpen=0
-
-function! ToggleNetrw()
-    if g:NetrwIsOpen
-        let i = bufnr("$")
-        while (i >= 1)
-            if (getbufvar(i, "&filetype") == "netrw")
-                silent exe "bwipeout " . i
-            endif
-            let i-=1
-        endwhile
-        let g:NetrwIsOpen=0
-    else
-        let g:NetrwIsOpen=1
-        silent Lexplore
-    endif
-endfunction
-
 set path+=**            " clever'r completion
 set ignorecase smartcase
 
@@ -222,12 +199,6 @@ nnoremap <C-c>          :q<cr>
 nnoremap <C-s>          :wa<cr>
 noremap <C-k>           {
 noremap <C-j>           }
-" move to beginning/end of line
-"nnoremap B ^
-"nnoremap E $
-"" $/^ doesn't do anything
-"nnoremap $ <nop>
-"nnoremap ^ <nop>
 
 "" NOTE: Smoother scrolling
 map <C-U> 20<C-Y>
@@ -236,8 +207,6 @@ map <C-D> 20<C-E>
 "" NOTE:Quickfix Window from: https://gist.github.com/tacahiroy/3984661
 nnoremap <silent> <leader>o    :<C-u>silent call <SID>toggle_qf_list()<Cr>
 
-" Add your own mapping. For example:
-noremap <silent> <C-B> :call ToggleNetrw()<CR>
 " }}}
 " CPP: {{{
 function! SetCXXErrformat()
@@ -289,7 +258,6 @@ augroup group_highlight
     autocmd WinEnter,VimEnter * :silent! call matchadd('Question', 'NOTE', -1)
 augroup END
 " }}}
-
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "                        COLORSCHEME

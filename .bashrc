@@ -14,7 +14,7 @@ export XDG_CURRENT_DESKTOP=XFCE
 export PKG_CONFIG_PATH="/usr/lib/pkgconfig"
 
 alias open=xdg-open
-alias subl='subl3 -a'		# unfuck sublime text
+alias subl='subl -a'		# unfuck sublime text
 alias prename=perl-rename
 alias vimdiff='vim -d'
 alias md2pdf='python -m md2pdf'

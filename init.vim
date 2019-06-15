@@ -173,6 +173,9 @@ function! s:toggle_qf_list()
   endif
 endfunction
 
+"" Quickfix completely bottom
+autocmd FileType qf wincmd J
+
 "" InsertTimeofDay
 function! InsertTimeofDay()
     execute 'read !date "+\%D \%H:\%M"'

@@ -210,6 +210,8 @@ map <C-D> 20<C-E>
 "" NOTE:Quickfix Window from: https://gist.github.com/tacahiroy/3984661
 nnoremap <silent> <leader>o    :<C-u>silent call <SID>toggle_qf_list()<Cr>
 
+nnoremap <leader>t    :!st & disown<cr><cr>
+
 " }}}
 " CPP: {{{
 function! SetCXXErrformat()

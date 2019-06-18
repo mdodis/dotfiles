@@ -38,7 +38,6 @@ alias l="ls -al"
 alias vi=nvim ##novi
 alias vim=nvim ##novi
 tput smkx ## st delete key
-
 if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
     startx
 fi

@@ -15,7 +15,7 @@ function sound_status {
 
 # get current assigned ip address in LAN network
 function getip {
-    hostname -i | awk '{print $1}'
+    echo "$(ip addr show dev $(ip r | grep -oP 'default.*dev \K\S*') | grep -oP '(?<=inet )[^/]*(?=/)')"
 }
 
 # get current layout (hardcoded)

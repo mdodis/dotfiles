@@ -41,3 +41,5 @@ tput smkx ## st delete key
 if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
     startx
 fi
+
+alias anaconda='source $HOME/scripts/conda.sh'

@@ -41,6 +41,7 @@ fi
 
 # Config
 compton -b
-feh --bg-scale Pictures/Minimal\ Neon.jpg
+~/.fehbg &
 sh $HOME/scripts/dwm_status &
 dbus-launch dwm
+

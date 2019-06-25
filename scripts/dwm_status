@@ -15,7 +15,7 @@ function sound_status {
 
 # get current assigned ip address in LAN network
 function getip {
-    echo "$(ip addr show dev $(ip r | grep -oP 'default.*dev \K\S*') | grep -oP '(?<=inet )[^/]*(?=/)')"
+    ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p'
 }
 
 # get current layout (hardcoded)
@@ -46,7 +46,12 @@ function bright {
 
 function bat {
     if [[ ! -z "$(command -v acpi)" ]]; then
-        echo -n ⚡ $(acpi -b | awk '{print $4}' | tr -d ",")
+        if [[ ! -z "$(acpi -b | grep Charging)" ]]; then
+            STAT="🔌 "
+        else
+            STAT="⚡ "
+        fi
+        echo -n  $STAT $(acpi -b | awk '{print $4}' | tr -d ",")
     fi
 }
 while true; do

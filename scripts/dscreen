@@ -1,2 +1,6 @@
 #!/bin/bash
-/home/miked/scripts/_screen/capture_mon
+MONP=$(~/scripts/select_monitor.sh)
+DIM=$(echo $MONP | awk '{print $1}')
+OFF=$(echo $MONP | awk '{print $2}')
+sleep 1 # wait for dmenu to close
+ffmpeg -f x11grab -video_size $DIM -i $DISPLAY$OFF -vframes 1 "$HOME/Pictures/$(date +%d-%b-%g_%k-%m-%S).png"

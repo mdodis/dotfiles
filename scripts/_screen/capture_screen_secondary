@@ -1,1 +1,0 @@
-ffmpeg -f x11grab -video_size 1680x1050 -i $DISPLAY+1920+30 -vframes 1 "$HOME/Pictures/$(date +%d-%b-%g_%k-%m-%S).png"

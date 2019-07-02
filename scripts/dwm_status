@@ -55,6 +55,6 @@ function bat {
     fi
 }
 while true; do
-    xsetroot -name "CPU: $(cpuavg)%  🌐 $(getip) 🖮 $(getlayout) $(sound_status) | $(bat) | 📆 $(date "+%d/%m/%y 🕒 %H:%M") 💻 $(bright)"
+    xsetroot -name " 🌐 $(getip) 🖮 $(getlayout) $(sound_status) | $(bat) | 📆 $(date "+%d/%m/%y 🕒 %H:%M") 💻 $(bright)"
     sleep 1s
 done

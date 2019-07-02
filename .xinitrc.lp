@@ -43,5 +43,6 @@ fi
 compton -b
 ~/.fehbg &
 sh $HOME/scripts/dwm_status &
+dunst &
 dbus-launch dwm
 

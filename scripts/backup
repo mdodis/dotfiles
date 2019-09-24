@@ -1,0 +1,2 @@
+#!/bin/bash
+tar cfvh "$1.tar" $1

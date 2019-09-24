@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Set As Background
+Exec=feh --bg-scale %u
+Categories=Other;
+NoDisplay=true
+MimeType=image/jpeg
+Terminal=false

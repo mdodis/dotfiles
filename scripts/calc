@@ -1,2 +1,2 @@
 #!/bin/bash
-st -t "calc" -e "$HOME/scripts/_calc"
+st -c popup -e "$HOME/scripts/_calc"

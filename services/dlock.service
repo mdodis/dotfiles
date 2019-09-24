@@ -1,0 +1,12 @@
+[Unit]
+Description=Lock screen before suspend
+Before=sleep.target
+
+[Service]
+User=miked
+Type=forking
+Environment=DISPLAY=:0
+ExecStart=/home/miked/scripts/dlock
+
+[Install]
+WantedBy=sleep.target<Paste>

@@ -7,16 +7,16 @@ Type=Application
 Version=1.0
 
 # The name of the application
-Name=ranger
+Name=cmd
 
 # A comment which can/will be used as a tooltip
-Comment=File Manager
+Comment=A Terminal.
 
 # The path to the folder in which the executable is run
 Path=/home/miked/
 
 # The executable of the application, possibly with arguments.
-Exec=st -e "/usr/bin/ranger" -t "ranger"
+Exec=/usr/local/bin/st -c popup
 
 # The name of the icon that will be used to display this entry
 
@@ -25,4 +25,4 @@ Terminal=false
 
 # Describes the categories in which this entry should be shown
 #Categories=Programming;
-Icon=/home/miked/.icons/dman.svg
+Icon=/home/miked/.icons/st.svg

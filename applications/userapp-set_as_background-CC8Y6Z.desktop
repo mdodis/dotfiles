@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=Set As Background
+Exec=/home/miked/scripts/set_as_background %f
+Categories=Other;
+NoDisplay=true
+MimeType=image/png
+Terminal=false

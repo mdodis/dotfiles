@@ -1,8 +1,9 @@
+#!/bin/bash
 rm picture_take 2> /dev/null
 TIME_DATE=picture_take
 SCRN=$(xrandr -q | sed 1q | awk '{print $8"x"$10}' | tr -d ",")
 ffmpeg -f x11grab -video_size $SCRN -i $DISPLAY -vf scale=683:-1 -vframes 1 $TIME_DATE.png
 convert -blur 0x10 -resize $SCRN $TIME_DATE.png $TIME_DATE.blur.png
-i3lock -i $TIME_DATE.blur.png
-rm $TIME_DATE.png
-rm $TIME_DATE.blur.png
+/usr/bin/i3lock -i $TIME_DATE.blur.png
+rm $TIME_DATE.png 2> /dev/null
+rm $TIME_DATE.blur.png 2> /dev/null

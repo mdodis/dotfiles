@@ -1,0 +1,8 @@
+[Unit]
+Description=Bluetooth Auto disable
+
+[Service]
+ExecStart=/usr/bin/bluetooth_off
+
+[Install]
+WantedBy=multi-user.target

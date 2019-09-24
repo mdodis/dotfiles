@@ -1,0 +1,3 @@
+#!/bin/bash
+~/work/tools/xoverlay/xoverlay -l 0 -m 100 -c "pamixer --get-volume" & pamixer -i 5 && fg
+#pamixer -i 5 && fg

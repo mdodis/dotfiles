@@ -41,8 +41,8 @@ fi
 
 # Config
 compton -b
+xset b off
 ~/.fehbg &
 sh $HOME/scripts/dwm_status &
-dunst &
-dbus-launch dwm
-
+blueman-applet &
+exec dbus-launch dwm

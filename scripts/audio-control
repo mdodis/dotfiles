@@ -1,0 +1,9 @@
+#!/bin/bash
+AUDIO_ICON_FULL="/home/miked/scripts/audio-full.png"
+AUDIO_ICON_NONE="/home/miked/scripts/audio-mute.png"
+
+case "$1"
+in
+u) ~/work/tools/xoverlay/xoverlay -l 0 -m 100 -c "pamixer --get-volume" -f $AUDIO_ICON_FULL -n $AUDIO_ICON_NONE & pamixer -i 5 && fg;;
+d) ~/work/tools/xoverlay/xoverlay -l 0 -m 100 -c "pamixer --get-volume" -f $AUDIO_ICON_FULL -n $AUDIO_ICON_NONE & pamixer -d 5 && fg;;
+esac

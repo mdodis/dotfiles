@@ -26,7 +26,7 @@ alias pacfiles="pacman -Ql"                     # I always forget the right comm
 alias l="ls -al"                                # Custom linux by Michael Dodis CORP®
 alias y2mp3="youtube-dl -x --audio-format mp3"  # youtube-dl
 alias 4edc="cd .local/bin/4coder-linux-x64-super/4coder/"
-
+alias protoc='python -m grpc_tools.protoc'
 alias vi=nvim                                   # neovim
 alias vim=nvim                                  # Neovim!
 alias VIM=nvim                                  # NEOVIM!

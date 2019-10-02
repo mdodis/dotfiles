@@ -1,9 +1,36 @@
 #!/bin/bash
 AUDIO_ICON_FULL="/home/miked/scripts/audio-full.png"
-AUDIO_ICON_NONE="/home/miked/scripts/audio-mute.png"
+AUDIO_ICON_NONE="/home/miked/scripts/audio-none.png"
+AUDIO_ICON_MUTED="/home/miked/scripts/audio-mute.png"
+
+FULLICON=$AUDIO_ICON_FULL
+NONEICON=$AUDIO_ICON_NONE
+ISMUTE=0
+
+function audio_handle_mute {
+    volume_stat=$(pamixer --get-volume-human)
+    if [[ $volume_stat == *"muted"* ]]; then
+        FULLICON=$AUDIO_ICON_MUTED
+        NONEICON=$AUDIO_ICON_MUTED
+        ISMUTE=1
+    fi
+}
+
+function audio_toggle_mute {
+    if [[ $ISMUTE != 0 ]]; then
+        FULLICON=$AUDIO_ICON_FULL
+    else
+        FULLICON=$AUDIO_ICON_MUTED
+    fi
+    xoverlay -l 0 -m 100 -c "pamixer --get-volume" -f $FULLICON -n $NONEICON & pamixer -t && fg
+}
+
+audio_handle_mute
 
 case "$1"
 in
-u) ~/work/tools/xoverlay/xoverlay -l 0 -m 100 -c "pamixer --get-volume" -f $AUDIO_ICON_FULL -n $AUDIO_ICON_NONE & pamixer -i 5 && fg;;
-d) ~/work/tools/xoverlay/xoverlay -l 0 -m 100 -c "pamixer --get-volume" -f $AUDIO_ICON_FULL -n $AUDIO_ICON_NONE & pamixer -d 5 && fg;;
+u) xoverlay -l 0 -m 100 -c "pamixer --get-volume" -f $FULLICON -n $NONEICON & pamixer -i 5 && fg;;
+d) xoverlay -l 0 -m 100 -c "pamixer --get-volume" -f $FULLICON -n $NONEICON & pamixer -d 5 && fg;;
+m) audio_toggle_mute;;
+
 esac

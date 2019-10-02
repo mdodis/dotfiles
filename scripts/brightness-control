@@ -2,6 +2,6 @@
 BC_ICON="/home/miked/scripts/brightness.png"
 case "$1"
 in
-u) ~/work/tools/xoverlay/xoverlay -l 0 -m 100 -c "xbacklight -get" -f $BC_ICON & xbacklight -inc 5 && fg;;
-d) ~/work/tools/xoverlay/xoverlay -l 0 -m 100 -c "xbacklight -get" -f $BC_ICON & xbacklight -dec 5 && fg;;
+u) xoverlay -l 0 -m 100 -c "xbacklight -get" -f $BC_ICON & xbacklight -inc 5 && fg;;
+d) xoverlay -l 0 -m 100 -c "xbacklight -get" -f $BC_ICON & xbacklight -dec 5 && fg;;
 esac

@@ -3,7 +3,7 @@
 " internet, and I don't know vimscript particularly well!
 " So, be careful please.
 " Michael Dodis
-"
+
 " TOUR:
 " I disabled line numbers, and wraping (confuzles the hell out'a me).
 " Line numbers take up too much space in big files, and besides the
@@ -51,7 +51,12 @@
 " * Removed netrw stuff, it caused problems with exiting
 
 " COMMON: {{{
-autocmd BufWritePre * %s/\s\+$//e
+
+set background=dark
+set foldmethod=marker
+set foldmarker={{{,}}}
+
+" autocmd BufWritePre * %s/\s\+$//e
 set nonumber
 set showcmd
 " set cursorline
@@ -60,7 +65,7 @@ syntax on
 " Only use the system clipboard.
 "" Why would _anyone_. Ever. Use. The.
 "" Vim clipboard!?
-set clipboard   +=unnamedplus
+set clipboard=unnamedplus
 
 "" Make quick search better
 set nohlsearch
@@ -106,21 +111,24 @@ let g:currentmode={
     \ 'cv' : 'Vim Ex',      'ce' : 'Ex',                        'r'  : 'Prompt',    'rm' : 'More',
     \ 'r?' : 'Confirm',     '!'  : 'Shell',                     't'  : 'Terminal'}
 
+hi statusline ctermfg=3 ctermbg=0
+
 set laststatus=2
 set noshowmode
 set statusline=
 set statusline+=%0*\ %{toupper(g:currentmode[mode()])}\  " The current mode
-set statusline+=%1*\ %t%m%r%h%w\                         " File name, modified, readonly, helpfile, preview
+set statusline+=%#LineNr#\ %t%m%r%h%w\                         " File name, modified, readonly, helpfile, preview
 set statusline+=%3*│                                     " Separator
 set statusline+=%2*\ %Y\                                 " FileType
 set statusline+=%3*│                                     " Separator
-set statusline+=%2*\ %{''.(&fenc!=''?&fenc:&enc).''}     " Encoding
+set statusline+=%#LineNr#\ %{''.(&fenc!=''?&fenc:&enc).''}     " Encoding
 set statusline+=\ (%{&ff})                               " FileFormat (dos/unix..)
 set statusline+=%=                                       " Right Side
 set statusline+=%3*│                                     " Separator
-set statusline+=%1*\ %c\:%02l/%L\ (%3p%%)\                   " Line number / total lines, percentage of document
+set statusline+=%0*\ %c\:%02l/%L\ (%3p%%)\               " Line number / total lines, percentage of document
 
 set wildmenu
+hi WildMenu ctermfg=3 ctermbg=0
 "" Ignore common non-text files
 set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png,*.ico     " Images
 set wildignore+=*.pdf,*.psd                             " Documents
@@ -202,7 +210,6 @@ nnoremap <C-p>          :cp<cr>
 "" Close windows faster
 nnoremap <C-c>          :q<cr>
 
-nnoremap <C-s>          :wa<cr>
 noremap <C-k>           {
 noremap <C-j>           }
 
@@ -234,6 +241,7 @@ function! BindCSnippets()
     iabbrev 2for for (i = 0; i < n; ++i)<cr>{<cr><cr>}
     iabbrev 2cas case A:<cr><backspace>{<cr>} break;<esc>kk0ellxi<backspace>
     iabbrev 2pcs (*)<esc>hi
+    iabbrev 2main int main(int argc, char* argv[])<cr>{<cr>return 0;<cr>}<esc>kki<tab><backspace>
 endfunction
 
 augroup group_c_cpp
@@ -266,4 +274,3 @@ augroup group_highlight
     autocmd WinEnter,VimEnter * :silent! call matchadd('Question', 'NOTE', -1)
 augroup END
 " }}}
-

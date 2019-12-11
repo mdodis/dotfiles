@@ -1,0 +1,8 @@
+[Desktop Entry]
+Name=Ion Fury
+Exec=env WINEPREFIX="/home/miked/.wine" wine C:\\\\windows\\\\command\\\\start.exe /Unix /home/miked/.wine/dosdevices/c:/ProgramData/Microsoft/Windows/Start\\ Menu/Programs/GOG.com/Ion\\ Fury/Ion\\ Fury.lnk
+Type=Application
+StartupNotify=true
+Path=/home/miked/.wine/dosdevices/c:/GOG Games/Ion Fury
+Icon=4388_goggame-1740836875.0
+StartupWMClass=fury_nodrm.exe

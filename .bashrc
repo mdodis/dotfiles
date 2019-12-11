@@ -1,3 +1,4 @@
+
 # Here's the bashrc. I don't exactly understand if I should
 # put some of the stuff here elsewhere, like bash_profile or
 # whatever. But since it seems like it's working good, I won't
@@ -74,4 +75,3 @@ alias anaconda="source ~/scripts/anaconda.sh"
 #fi
 #unset __conda_setup
 # <<< conda initialize <<<
-

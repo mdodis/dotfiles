@@ -1,3 +1,5 @@
 anaconda.sh
 *.cache
 *.png
+
+wine-*

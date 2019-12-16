@@ -56,7 +56,7 @@ set background=dark
 set foldmethod=marker
 set foldmarker={{{,}}}
 
-" autocmd BufWritePre * %s/\s\+$//e
+autocmd BufWritePre * %s/\s\+$//e
 set nonumber
 set showcmd
 " set cursorline

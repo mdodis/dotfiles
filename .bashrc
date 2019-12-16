@@ -6,6 +6,7 @@
 
 [[ $- != *i* ]] && return                       # If not running interactively, don't do anything
 
+bind TAB:menu-complete
 alias ls='ls --color=auto'
 export PATH=$PATH:"~/scripts":"~/.local/bin"    # Nothing to see here
 export SUDO_ASKPASS="$HOME/scripts/dmenupass"   # Modularity™

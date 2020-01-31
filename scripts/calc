@@ -1,2 +1,2 @@
 #!/bin/bash
-st -c popup -e "$HOME/scripts/_calc"
+gnome-terminal "$HOME/scripts/_calc"

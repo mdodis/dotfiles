@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=dotslash
+Exec=/home/miked/scripts/dotslash %f
+Categories=Other;
+NoDisplay=true
+MimeType=application/x-sharedlib
+Terminal=false

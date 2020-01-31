@@ -50,34 +50,80 @@
 " * Added folding because I just learned about it
 " * Removed netrw stuff, it caused problems with exiting
 
+" COLORS: {{{
+set background=dark
+hi clear
+if exists("syntax_on")
+  syntax reset
+endif
+let g:colors_name = ""
+
+hi Comment term=bold ctermfg=Red
+hi Normal ctermfg=Grey
+hi Constant term=underline ctermfg=Yellow
+hi Special term=bold ctermfg=yellow
+hi Identifier term=underline ctermfg=Grey
+hi Statement term=standout ctermfg=Blue
+hi PreProc term=underline ctermfg=Grey
+hi Type term=underline ctermfg=White
+hi Visual term=reverse ctermfg=Black ctermbg=Grey
+hi Search term=reverse ctermfg=Black ctermbg=Cyan gui=NONE guifg=Black guibg=Cyan
+hi Tag term=bold ctermfg=DarkGreen guifg=DarkGreen
+hi Error term=reverse ctermfg=15 ctermbg=9 guibg=Red guifg=White
+hi Todo term=standout ctermbg=Yellow ctermfg=Black guifg=Blue guibg=Yellow
+hi  StatusLine term=bold cterm=bold,standout ctermfg=Yellow ctermbg=Gray
+hi! link MoreMsg Comment
+hi! link ErrorMsg Visual
+hi! link WarningMsg ErrorMsg
+hi! link Question Comment
+hi link String	Constant
+hi link Character	Constant
+hi link Number	Constant
+hi link Boolean	Constant
+hi link Float		Number
+hi link Function	Identifier
+hi link Conditional	Statement
+hi link Repeat	Statement
+hi link Label		Statement
+hi link Operator	Statement
+hi link Keyword	Statement
+hi link Exception	Statement
+hi link Include	Identifier
+hi link Define	Identifier
+hi link Macro		Identifier
+hi link PreCondit	Identifier
+hi link StorageClass	Type
+hi link Structure	Type
+hi link Typedef	Type
+hi link SpecialChar	Special
+hi link Delimiter	Special
+hi link SpecialComment Special
+hi link Debug		Special
+" }}}
 " COMMON: {{{
 
-set background=dark
 set foldmethod=marker
 set foldmarker={{{,}}}
 
 autocmd BufWritePre * %s/\s\+$//e
-set nonumber
-set showcmd
-" set cursorline
-set mouse=a
+set nonumber " Look at the bottom left
+set showcmd  " I don't know why
+set mouse=a  " Mouse is sometimes good for browsing
 syntax on
 " Only use the system clipboard.
-"" Why would _anyone_. Ever. Use. The.
-"" Vim clipboard!?
+" Why would Anyone. Ever. Use. The.
+" Vim clipboard!?
 set clipboard=unnamedplus
-
-"" Make quick search better
+" Make quick search better
 set nohlsearch
 set incsearch
-
-"" Make indenting normal
+" Make indenting normal
 set tabstop     =4
 set softtabstop =4
 set shiftwidth  =4
 set expandtab
 set autoindent
-set nowrap      " My son has turned into a wrapper!
+set nowrap
 
 if has('win32')
     " Windows filesystem
@@ -111,21 +157,17 @@ let g:currentmode={
     \ 'cv' : 'Vim Ex',      'ce' : 'Ex',                        'r'  : 'Prompt',    'rm' : 'More',
     \ 'r?' : 'Confirm',     '!'  : 'Shell',                     't'  : 'Terminal'}
 
-hi statusline ctermfg=3 ctermbg=0
-
 set laststatus=2
 set noshowmode
 set statusline=
-set statusline+=%0*\ %{toupper(g:currentmode[mode()])}\  " The current mode
-set statusline+=%#LineNr#\ %t%m%r%h%w\                         " File name, modified, readonly, helpfile, preview
-set statusline+=%3*│                                     " Separator
-set statusline+=%2*\ %Y\                                 " FileType
-set statusline+=%3*│                                     " Separator
-set statusline+=%#LineNr#\ %{''.(&fenc!=''?&fenc:&enc).''}     " Encoding
-set statusline+=\ (%{&ff})                               " FileFormat (dos/unix..)
+set statusline+=%#TermCursor#\ %{toupper(g:currentmode[mode()])}\  " The current mode
+set statusline+=                                      " Separator
+set statusline+=%t%m%r%h%w\                         " File name, modified, readonly, helpfile, preview
+set statusline+=                                      " Separator
+set statusline+=                                     " Separator
 set statusline+=%=                                       " Right Side
-set statusline+=%3*│                                     " Separator
-set statusline+=%0*\ %c\:%02l/%L\ (%3p%%)\               " Line number / total lines, percentage of document
+set statusline+=                                     " Separator
+set statusline+=\ %c\:%02l/%L\                " Line number / total lines, percentage of document
 
 set wildmenu
 hi WildMenu ctermfg=3 ctermbg=0
@@ -151,8 +193,8 @@ endif
 " EXTRA: {{{
 set path+=**            " clever'r completion
 set ignorecase smartcase
-
-" quickfix
+set exrc " add .nvimrc file to your project's root folder for project-specific stuff
+" quickfix window
 function! s:redir(cmd)
   redir => res
   execute a:cmd
@@ -183,44 +225,41 @@ endfunction
 
 "" Quickfix completely bottom
 autocmd FileType qf wincmd J
-
-nmap \fR :Mirror<CR>
 command! -bar -range Mirror <line1>,<line2>call setline('.', join(reverse(split(getline('.'), '\zs')), ''))
 
 "" InsertTimeofDay
 function! InsertTimeofDay()
     execute 'read !date "+\%D \%H:\%M"'
 endfunction
-command! ITDay call InsertTimeofDay()
+command! Itod call InsertTimeofDay()
 " }}}
 " KEYMAPS: {{{
-"" Makefiles
+" Makefiles
 nnoremap <leader>m      :silent make \|redraw!<cr>
-"" search and goto functionality
+" search and goto functionality
 nnoremap <C-o>          :drop **/*
 nnoremap <leader>\      :grep<space>
-"" Make space useful
+" Make space useful
 noremap <space>         v
 noremap <c-space>       <c-v>
 nnoremap v              <nop>
 nnoremap <C-v>          <nop>
-"" Shortcuts for next result
+" Shortcuts for next result
 nnoremap <C-n>          :cn<cr>
 nnoremap <C-p>          :cp<cr>
-"" Close windows faster
+" Close windows faster
 nnoremap <C-c>          :q<cr>
-
-noremap <C-k>           {
-noremap <C-j>           }
-
-"" NOTE: Smoother scrolling
+nnoremap <C-k>           {
+nnoremap <C-j>           }
+nnoremap { <nop>
+nnoremap } <nop>
+nnoremap { zo
+nnoremap } zc
+" Smoother scrolling
 map <C-U> 20<C-Y>
 map <C-D> 20<C-E>
-
-"" NOTE:Quickfix Window from: https://gist.github.com/tacahiroy/3984661
+" Quickfix Window from: https://gist.github.com/tacahiroy/3984661
 nnoremap <silent> <leader>o    :<C-u>silent call <SID>toggle_qf_list()<Cr>
-
-nnoremap <leader>t    :!st & disown<cr><cr>
 
 " }}}
 " CPP: {{{
@@ -233,9 +272,7 @@ function! SetCXXErrformat()
         setlocal errorformat=%*[0-9]%*[>]\ %#%f(%l):\ %m
     endif
 endfunction
-
-"" REASONING: most of the time, I'm not using 2+char-sequence.
-"" Change as appropriate. I find '2' pretty easy to press
+" I always forget about these
 function! BindCSnippets()
     iabbrev 2inc #include
     iabbrev 2for for (i = 0; i < n; ++i)<cr>{<cr><cr>}

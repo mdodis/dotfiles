@@ -1,8 +1,0 @@
-[Desktop Entry]
-Name=Uninstall Ion Fury
-Exec=env WINEPREFIX="/home/miked/.wine" wine C:\\\\windows\\\\command\\\\start.exe /Unix /home/miked/.wine/dosdevices/c:/ProgramData/Microsoft/Windows/Start\\ Menu/Programs/GOG.com/Ion\\ Fury/Uninstall\\ Ion\\ Fury.lnk
-Type=Application
-StartupNotify=true
-Path=/home/miked/.wine/dosdevices/c:/GOG Games/Ion Fury
-Icon=2B44_unins000.0
-StartupWMClass=unins000.exe

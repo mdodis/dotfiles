@@ -39,11 +39,12 @@ if [ -f "$usermodmap" ]; then
     xmodmap "$usermodmap"
 fi
 
-# Config
-picom -b
-xset b off
-~/.fehbg &
-sh $HOME/scripts/dwm_status &
-blueman-applet &
-dbus-launch nm-applet &
-exec dbus-launch dwm
+# Config for dwm
+#picom -b
+#xset b off
+#~/.fehbg &
+#sh $HOME/scripts/dwm_status &
+#blueman-applet &
+#dbus-launch nm-applet &
+#exec dbus-launch dwm
+

@@ -1,0 +1,2 @@
+#/bin/bash
+cd $(dirname $1) && exec ./$(basename $1)

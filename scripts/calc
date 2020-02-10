@@ -1,2 +1,2 @@
 #!/bin/bash
-gnome-terminal "$HOME/scripts/_calc"
+st -c popup -t calc python -i -c "from math import *"

@@ -1,0 +1,7 @@
+#!/bin/bash
+if [ -z "$(pgrep picom)" ]
+then
+    picom -b && notify-send "Enabling Compositor"
+else
+    pkill picom && notify-send "Disabling Compositor"
+fi

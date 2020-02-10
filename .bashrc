@@ -37,8 +37,7 @@ alias VIM=nvim                                  # NEOVIM!
 #alias nethack="NETHACKOPTIONS=DECGraphics=true,statushilites:10,showexp,time=true,rest_on_space=false,autopickup=false nethack"
 alias nethack="NETHACKOPTIONS=showexp,time=true,rest_on_space=false,autopickup=false,perm_invent,windowtype:curses nethack"
 
-
-alias openvpn="sudo openvpn --config ~/Documents/ics.ovpn"
+alias openvpn="sudo openvpn --config ~/Documents/client.ovpn"
 # Why would any sane person want an installer to change
 # their shell config, adding a bunch of milliseconds on
 # startup? Seriously, we had package managers to manage package
@@ -50,11 +49,11 @@ alias openvpn="sudo openvpn --config ~/Documents/ics.ovpn"
 # of higher-level (than C) languages was simplicity. I'd rather write
 # billions of lines in C. Thanks, Obama.
 
-#tput smkx                                       # st delete key
+tput smkx                                       # st delete key
 # startx on login
-#if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
-#    startx
-#fi
+if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
+    startx
+fi
 
 ## unfuck nautilus Open Terminal to open terminator
 ## don't use nautilus anymore, but will keep just in case

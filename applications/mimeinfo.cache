@@ -1,2 +1,5 @@
 [MIME Cache]
+application/x-extension-htm=wine-extension-htm.desktop;
+application/x-extension-html=wine-extension-html.desktop;
+application/x-sharedlib=userapp-dotslash-6WL1E0.desktop;
 image/jpeg=userapp-feh --bg-scale-D0LH4Z.desktop;

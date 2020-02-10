@@ -1,4 +1,0 @@
-#!/bin/bash
-python -i -c "from math import *"
-#bc -l <(echo "pi=4*a(1)")
-#nickle

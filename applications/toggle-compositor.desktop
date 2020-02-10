@@ -7,16 +7,16 @@ Type=Application
 Version=1.0
 
 # The name of the application
-Name=4ed
+Name=Toggle Compositor
 
 # A comment which can/will be used as a tooltip
-Comment=4Coder
+Comment=Toggle Compositor
 
 # The path to the folder in which the executable is run
-Path=/home/miked/work/
+Path=/home/miked/scripts/
 
 # The executable of the application, possibly with arguments.
-Exec="/home/miked/.local/bin/4coder-linux-x64-super/4coder/4ed" -f 11
+Exec="/home/miked/scripts/toggle-compositor"
 
 # The name of the icon that will be used to display this entry
 
@@ -26,3 +26,4 @@ Terminal=false
 # Describes the categories in which this entry should be shown
 #Categories=Programming;
 Icon=/home/miked/.icons/dman.svg
+

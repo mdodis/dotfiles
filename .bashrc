@@ -33,6 +33,7 @@ alias protoc='python -m grpc_tools.protoc'
 alias vi=nvim                                   # neovim
 alias vim=nvim                                  # Neovim!
 alias VIM=nvim                                  # NEOVIM!
+alias 4ed="~/.local/bin/4coder-linux-x64-super/4coder/4ed -f 11"
 # Don't even understand how it works, but I still want to customize it. Yay.
 #alias nethack="NETHACKOPTIONS=DECGraphics=true,statushilites:10,showexp,time=true,rest_on_space=false,autopickup=false nethack"
 alias nethack="NETHACKOPTIONS=showexp,time=true,rest_on_space=false,autopickup=false,perm_invent,windowtype:curses nethack"

@@ -56,6 +56,7 @@ hi clear
 if exists("syntax_on")
   syntax reset
 endif
+syntax on
 let g:colors_name = ""
 
 hi Comment term=bold ctermfg=Red

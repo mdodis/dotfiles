@@ -5,56 +5,57 @@
 function sound_status {
     VOL=$(pamixer --get-volume)
     MUTED=$(pamixer --get-mute)
+    echo -ne "\x05 "
     case $MUTED in
-        "true" )  echo -n 🔇;;
-        "false")  echo -n 🔊;;
+        "true" )  echo -ne 🔇;;
+        "false")  echo -ne 🔊;;
     esac
 
-    echo -n " $VOL%"
+    echo -ne " $VOL% "
+    echo -ne "\x01"
 }
 
 # get current assigned ip address in LAN network
 function getip {
-    ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p'
+    echo -ne "\x08$(ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p')\x01"
 }
 
 # get current layout (hardcoded)
 function getlayout {
-    echo -n $(xkblayout)
+    echo -ne "\x09 $(xkblayout) \x01"
 }
 
 # /proc/status narrowed down to cpu usage
 function cpuavg {
-    printf "%.2f\n" $(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage}')
-}
-
-function minikubestat {
-    if [[ ! -z "$(command -v minikube)" ]]; then
-        mstatus=$(minikube status | grep host)
-        if [[ $mstatus == *"Running"* ]]; then
-            echo kube
-        fi
-    fi
+    echo -ne "%.2f\n" $(grep 'cpu ' /proc/stat | awk '{usage=($2+$4)*100/($2+$4+$5)} END {print usage}')
 }
 
 function bright {
     BRIGHT=$(xbacklight -get | xargs printf "%.0f")
     if [[ ! -z "$BRIGHT" ]]; then
-        echo -n "$BRIGHT"
+        echo -ne "\x07 💻$BRIGHT \x01"
     fi
 }
 
 function bat {
     if [[ ! -z "$(command -v acpi)" ]]; then
         if [[ ! -z "$(acpi -b | grep Charging)" ]]; then
-            STAT="🔌 "
+            STAT="\x0A 🔌"
         else
-            STAT="⚡ "
+            # \x06
+            STAT="\x06 ⚡"
         fi
-        echo -n  $STAT $(acpi -b | awk '{print $4}' | tr -d ",")
+        echo -ne "$STAT "$(acpi -b | awk '{print $4}' | tr -d ",")" \x01"
     fi
 }
+
+function datetime {
+    DAT=$(date "+%d/%m/%y 🕒 %H:%M")
+
+    echo -ne "\x0B 📆 $DAT \x01"
+}
+
 while true; do
-    xsetroot -name " 🌐 $(getip) 🖮 $(getlayout) $(sound_status) | $(bat) | 📆 $(date "+%d/%m/%y 🕒 %H:%M") 💻 $(bright)"
+    xsetroot -name "$(getip)$(getlayout)$(sound_status)$(bat)$(datetime)$(bright)"
     sleep 1s
 done

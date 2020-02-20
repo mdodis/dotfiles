@@ -21,6 +21,8 @@ export QT_QPA_PLATFORMTHEME=qt5ct
 export PS1="\[\e[1;30;44m\]\h\[\e[m\]\[\e[1;30;42m\]\u\[\e[m\] \W)⮞ "
 export QEMU_AUDIO_DRV=alsa
 
+export LIBVA_DRIVER_NAME
+
 alias open=xdg-open
 alias subl='subl -a'		                    # better sublime-text terminal "cli"
 alias prename=perl-rename                       # pretty useless if u have ranger

@@ -1,105 +1,55 @@
-" Configuration file for Neovim
-" I have accumulated all of these from around the
-" internet, and I don't know vimscript particularly well!
-" So, be careful please.
-" Michael Dodis
+" Config file for Neovim ONLY. Michael Dodis.
+" If this kills sb it's not me I swear.
 
 " TOUR:
 " I disabled line numbers, and wraping (confuzles the hell out'a me).
 " Line numbers take up too much space in big files, and besides the
 " offseted line numbers, they are useless. Look at the bottom right instead.
-" The only plugin currently is comfortable motion. For the looks obviously.
-" Disable as needed.
-
-" Tested On two linux machines (Arch and Fedora), works with zero
-" extra configuration (st and gnome-terminal)
+" You might find yourself wondering: "why is it that the only dep this fucking
+" idiot has is a colorscheme? Do I see tpope/commentary pasted right into the
+" init.vim file ?!"
+" Yes. FIGHT ME!
 
 " SHORTCUTS:
 " <leader>m : usually the equivalent make command
 " <F5>      : The "run" command
 " <leader>\ : Search with silver searcher
+" <leader>t : Switch tab
 " <C-n>     : Show next result in quickfix
 " <C-p>     : Show previous result in quickfix
 " <leader>o : Toggle quickfix window (really useful for me)
 " <C-o>     : Quick goto file (or buffer if it exists)
-" <leader>h : Hack to make switching from header to source easier;
+" <leader>h : :e <current_file_wo_extension>
 " Of course, by default the leader key is \, which I've kept, because
-" it reminds me that it's there
+" it reminds me that it's there. Windows reminds me of that key as well.
+" Damn you, Windows.
 
 " SNIPPETS:
 " I have a difficult time typing some char sequences in C
 " for example the for loop, or even better a cast to a pointer.
 " They require Shift+<char> 3 times! now just type: 2pcs
-
-" UPDATE: 05/31/19
-" * Removed Lightline plugin, for portability reasons
-" * Added "snippet" support (leader key is 2)
-" - Considering removing comfortable_motion as well
-
-" UPDATE: 06/02/19
-" * Removed comfortable_motion
-
-" UPDATE: 06/03/19
-" * Added C-j C-k to move between paragraphs
-" * Added C-s to save everything
-" * Added C-f to search (just in case I get used to it)
-" * Added mouse=a to enable visual mode mouse
-" * Added simple netrw config to open "explorer" tree.
-"         I don't know were I'd use this, but oh well.
-"         Just for ricing's sake I guess.
-" * Added folding because I just learned about it
-" * Removed netrw stuff, it caused problems with exiting
-
 " COLORS: {{{
-"set background=dark
+set background=dark
 hi clear
 if exists("syntax_on")
   syntax reset
 endif
 syntax on
 let g:colors_name = ""
+set termguicolors
+colorscheme NeoSolarized
 
-hi Comment term=bold ctermfg=Red
-hi Normal ctermfg=Grey
-hi Constant term=underline ctermfg=Yellow
-hi Special term=bold ctermfg=yellow
-hi Identifier term=underline ctermfg=Grey
-hi Statement term=standout ctermfg=Blue
-hi PreProc term=underline ctermfg=Grey
-hi Type term=underline ctermfg=White
-hi Visual term=reverse ctermfg=Black ctermbg=Grey
-hi Search term=reverse ctermfg=Black ctermbg=Cyan gui=NONE guifg=Black guibg=Cyan
-hi Tag term=bold ctermfg=DarkGreen guifg=DarkGreen
-hi Error term=reverse ctermfg=15 ctermbg=9 guibg=Red guifg=White
-hi Todo term=standout ctermbg=Yellow ctermfg=Black guifg=Blue guibg=Yellow
-hi  StatusLine term=bold cterm=bold,standout ctermfg=Yellow ctermbg=Gray
-hi! link MoreMsg Comment
-hi! link ErrorMsg Visual
-hi! link WarningMsg ErrorMsg
-hi! link Question Comment
-hi link String	Constant
-hi link Character	Constant
-hi link Number	Constant
-hi link Boolean	Constant
-hi link Float		Number
-hi link Function	Identifier
-hi link Conditional	Statement
-hi link Repeat	Statement
-hi link Label		Statement
-hi link Operator	Statement
-hi link Keyword	Statement
-hi link Exception	Statement
-hi link Include	Identifier
-hi link Define	Identifier
-hi link Macro		Identifier
-hi link PreCondit	Identifier
-hi link StorageClass	Type
-hi link Structure	Type
-hi link Typedef	Type
-hi link SpecialChar	Special
-hi link Delimiter	Special
-hi link SpecialComment Special
-hi link Debug		Special
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+" automatically open netrw
+" augroup ProjectDrawer
+"   autocmd!
+"   autocmd VimEnter * :Vexplore
+" augroup END
+
 " }}}
 " COMMON: {{{
 
@@ -249,7 +199,7 @@ nnoremap <C-v>          <nop>
 nnoremap <C-n>          :cn<cr>
 nnoremap <C-p>          :cp<cr>
 " Close windows faster
-nnoremap <C-c>          :q<cr>
+"nnoremap <C-c>          :q<cr>
 nnoremap <C-k>           {
 nnoremap <C-j>           }
 nnoremap { <nop>
@@ -262,6 +212,8 @@ map <C-D> 20<C-E>
 " Quickfix Window from: https://gist.github.com/tacahiroy/3984661
 nnoremap <silent> <leader>o    :<C-u>silent call <SID>toggle_qf_list()<Cr>
 
+nnoremap <leader>t :tabNext<CR>
+tnoremap <Esc> <C-\><C-n>
 " }}}
 " CPP: {{{
 function! SetCXXErrformat()
@@ -296,7 +248,7 @@ augroup group_c_cpp
     autocmd Filetype            c,cpp                       call BindCSnippets()
 augroup END
 " }}}
-" Markdown: {{{
+" MARKDOWN: {{{
 "" Github flavored markdown with md2pdf [https://github.com/walwe/md2pdf]
 "" Preview setup with zathura
 augroup group_markdown_preview
@@ -311,4 +263,125 @@ augroup group_highlight
     autocmd WinEnter,VimEnter * :silent! call matchadd('Todo', 'TODO', -1)
     autocmd WinEnter,VimEnter * :silent! call matchadd('Question', 'NOTE', -1)
 augroup END
+" }}}
+" PLUGINS {{{
+"   tpope/commentary {{{
+" commentary.vim - Comment stuff out
+" Maintainer:   Tim Pope <http://tpo.pe/>
+" Version:      1.3
+" GetLatestVimScripts: 3695 1 :AutoInstall: commentary.vim
+
+if exists("g:loaded_commentary") || v:version < 700
+  finish
+endif
+let g:loaded_commentary = 1
+
+function! s:surroundings() abort
+  return split(get(b:, 'commentary_format', substitute(substitute(substitute(
+        \ &commentstring, '^$', '%s', ''), '\S\zs%s',' %s', '') ,'%s\ze\S', '%s ', '')), '%s', 1)
+endfunction
+
+function! s:strip_white_space(l,r,line) abort
+  let [l, r] = [a:l, a:r]
+  if l[-1:] ==# ' ' && stridx(a:line,l) == -1 && stridx(a:line,l[0:-2]) == 0
+    let l = l[:-2]
+  endif
+  if r[0] ==# ' ' && a:line[-strlen(r):] != r && a:line[1-strlen(r):] == r[1:]
+    let r = r[1:]
+  endif
+  return [l, r]
+endfunction
+
+function! s:go(...) abort
+  if !a:0
+    let &operatorfunc = matchstr(expand('<sfile>'), '[^. ]*$')
+    return 'g@'
+  elseif a:0 > 1
+    let [lnum1, lnum2] = [a:1, a:2]
+  else
+    let [lnum1, lnum2] = [line("'["), line("']")]
+  endif
+
+  let [l, r] = s:surroundings()
+  let uncomment = 2
+  for lnum in range(lnum1,lnum2)
+    let line = matchstr(getline(lnum),'\S.*\s\@<!')
+    let [l, r] = s:strip_white_space(l,r,line)
+    if len(line) && (stridx(line,l) || line[strlen(line)-strlen(r) : -1] != r)
+      let uncomment = 0
+    endif
+  endfor
+
+  if get(b:, 'commentary_startofline')
+    let indent = '^'
+  else
+    let indent = '^\s*'
+  endif
+
+  for lnum in range(lnum1,lnum2)
+    let line = getline(lnum)
+    if strlen(r) > 2 && l.r !~# '\\'
+      let line = substitute(line,
+            \'\M' . substitute(l, '\ze\S\s*$', '\\zs\\d\\*\\ze', '') . '\|' . substitute(r, '\S\zs', '\\zs\\d\\*\\ze', ''),
+            \'\=substitute(submatch(0)+1-uncomment,"^0$\\|^-\\d*$","","")','g')
+    endif
+    if uncomment
+      let line = substitute(line,'\S.*\s\@<!','\=submatch(0)[strlen(l):-strlen(r)-1]','')
+    else
+      let line = substitute(line,'^\%('.matchstr(getline(lnum1),indent).'\|\s*\)\zs.*\S\@<=','\=l.submatch(0).r','')
+    endif
+    call setline(lnum,line)
+  endfor
+  let modelines = &modelines
+  try
+    set modelines=0
+    silent doautocmd User CommentaryPost
+  finally
+    let &modelines = modelines
+  endtry
+  return ''
+endfunction
+
+function! s:textobject(inner) abort
+  let [l, r] = s:surroundings()
+  let lnums = [line('.')+1, line('.')-2]
+  for [index, dir, bound, line] in [[0, -1, 1, ''], [1, 1, line('$'), '']]
+    while lnums[index] != bound && line ==# '' || !(stridx(line,l) || line[strlen(line)-strlen(r) : -1] != r)
+      let lnums[index] += dir
+      let line = matchstr(getline(lnums[index]+dir),'\S.*\s\@<!')
+      let [l, r] = s:strip_white_space(l,r,line)
+    endwhile
+  endfor
+  while (a:inner || lnums[1] != line('$')) && empty(getline(lnums[0]))
+    let lnums[0] += 1
+  endwhile
+  while a:inner && empty(getline(lnums[1]))
+    let lnums[1] -= 1
+  endwhile
+  if lnums[0] <= lnums[1]
+    execute 'normal! 'lnums[0].'GV'.lnums[1].'G'
+  endif
+endfunction
+
+command! -range -bar Commentary call s:go(<line1>,<line2>)
+xnoremap <expr>   <Plug>Commentary     <SID>go()
+nnoremap <expr>   <Plug>Commentary     <SID>go()
+nnoremap <expr>   <Plug>CommentaryLine <SID>go() . '_'
+onoremap <silent> <Plug>Commentary        :<C-U>call <SID>textobject(get(v:, 'operator', '') ==# 'c')<CR>
+nnoremap <silent> <Plug>ChangeCommentary c:<C-U>call <SID>textobject(1)<CR>
+nmap <silent> <Plug>CommentaryUndo :echoerr "Change your <Plug>CommentaryUndo map to <Plug>Commentary<Plug>Commentary"<CR>
+
+if !hasmapto('<Plug>Commentary') || maparg('gc','n') ==# ''
+  xmap gc  <Plug>Commentary
+  nmap gc  <Plug>Commentary
+  omap gc  <Plug>Commentary
+  nmap gcc <Plug>CommentaryLine
+  if maparg('c','n') ==# '' && !exists('v:operator')
+    nmap cgc <Plug>ChangeCommentary
+  endif
+  nmap gcu <Plug>Commentary<Plug>Commentary
+endif
+
+" vim:set et sw=2:
+"   }}}
 " }}}

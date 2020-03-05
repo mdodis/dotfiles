@@ -38,15 +38,15 @@ function bright {
 }
 
 function bat {
-    if [[ ! -z "$(command -v acpi)" ]]; then
-        if [[ ! -z "$(acpi -b | grep Charging)" ]]; then
-            STAT="\x0A 🔌"
-        else
-            # \x06
-            STAT="\x06 ⚡"
-        fi
-        echo -ne "$STAT "$(acpi -b | awk '{print $4}' | tr -d ",")" \x01"
+    if [[ $(cat /sys/class/power_supply/AC/online | tr -d "\n") -eq "1" ]]; then
+        echo -ne "\x0A 🔌 ";
+    else
+        echo -ne "\x06 ⚡ ";
     fi
+    for BAT in /sys/class/power_supply/BAT*; do
+        cat "$BAT/energy_now" "$BAT/energy_full" | tr "\n" " " | awk '{printf "%.0f%", $1*100/$2}';
+        echo -n " ";
+    done
 }
 
 function datetime {

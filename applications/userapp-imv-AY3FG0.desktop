@@ -1,0 +1,8 @@
+[Desktop Entry]
+Type=Application
+Name=imv
+Exec=imv %f
+Categories=Other;
+NoDisplay=true
+MimeType=image/x-panasonic-rw2
+Terminal=false

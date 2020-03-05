@@ -23,7 +23,7 @@ export QEMU_AUDIO_DRV=alsa
 
 export LIBVA_DRIVER_NAME
 
-alias open=xdg-open
+alias open='xdg-open 2>/dev/null >/dev/null'
 alias subl='subl -a'		                    # better sublime-text terminal "cli"
 alias prename=perl-rename                       # pretty useless if u have ranger
 alias vimdiff='vim -d'                          # diffit
@@ -57,7 +57,7 @@ tput smkx                                       # st delete key
 if [[ -z $DISPLAY ]] && [[ $(tty) = /dev/tty1 ]]; then
     startx
 fi
-
+source $HOME/.cargo/env
 ## unfuck nautilus Open Terminal to open terminator
 ## don't use nautilus anymore, but will keep just in case
 #if ps -o cmd= -p $(ps -o ppid= -p $$) | grep -q gnome; then

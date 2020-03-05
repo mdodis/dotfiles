@@ -46,5 +46,5 @@ xset b off
 sh $HOME/scripts/dwm_status &
 blueman-applet &
 dbus-launch nm-applet &
+gnome-keyring-daemon -r -d &
 exec dbus-launch dwm
-

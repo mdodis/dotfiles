@@ -24,10 +24,6 @@
 " it reminds me that it's there. Windows reminds me of that key as well.
 " Damn you, Windows.
 
-" SNIPPETS:
-" I have a difficult time typing some char sequences in C
-" for example the for loop, or even better a cast to a pointer.
-" They require Shift+<char> 3 times! now just type: 2pcs
 " COLORS: {{{
 set background=dark
 hi clear
@@ -75,6 +71,7 @@ set shiftwidth  =4
 set expandtab
 set autoindent
 set nowrap
+set cursorline
 
 if has('win32')
     " Windows filesystem
@@ -170,6 +167,7 @@ function! s:toggle_qf_list()
       copen
     else
       cclose
+      norm =
     endif
   endif
 endfunction
@@ -211,8 +209,12 @@ map <C-U> 20<C-Y>
 map <C-D> 20<C-E>
 " Quickfix Window from: https://gist.github.com/tacahiroy/3984661
 nnoremap <silent> <leader>o    :<C-u>silent call <SID>toggle_qf_list()<Cr>
+" TABS
+nnoremap = :tabnext<CR>
+nnoremap - :tabprevious<CR>
+nnoremap + :tabnew<cr>
+nnoremap _ :tabclose<cr>
 
-nnoremap <leader>t :tabNext<CR>
 tnoremap <Esc> <C-\><C-n>
 " }}}
 " CPP: {{{
@@ -246,6 +248,22 @@ augroup group_c_cpp
     autocmd Filetype            c,cpp                       :nnoremap <F6> :silent make clean\|redraw!
     " NOTE: comment this to disable "snippets"
     autocmd Filetype            c,cpp                       call BindCSnippets()
+augroup END
+
+augroup group_rustlang
+    autocmd!
+    autocmd Filetype            rust                        setlocal makeprg=cargo\ build
+    autocmd Filetype            rust                        setlocal errorformat=
+                                                                                \%-G,
+                                                                                \%-Gerror:\ aborting\ %.%#,
+                                                                                \%-Gerror:\ Could\ not\ compile\ %.%#,
+                                                                                \%Eerror:\ %m,
+                                                                                \%Eerror[E%n]:\ %m,
+                                                                                \%Wwarning:\ %m,
+                                                                                \%Inote:\ %m,
+                                                                                \%C\ %#-->\ %f:%l:%c,
+                                                                                \%E\ \ left:%m,%C\ right:%m\ %f:%l:%c,%Z
+    autocmd Filetype            rust                        :nnoremap <F5> :!cargo run<cr>
 augroup END
 " }}}
 " MARKDOWN: {{{

@@ -74,24 +74,27 @@ set nowrap
 set cursorline
 
 if has('win32')
-    " Windows filesystem
-    set directory=$HOME\VimBackups\swaps,$HOME\VimBackups,C:\VimBackups,.
-    set backupdir=$HOME\VimBackups\backups,$HOME\VimBackups,C:\VimBackups,.
-    if exists("&undodir")
-        set undodir=$HOME\VimBackups\undofiles,$HOME\VimBackups,C:\VimBackups,.
-    endif
-    if has("gui_running")
-      set guifont=Inconsolata:h12:cANSI
-    endif
-    let g:cxxcompiler = "msvc"
+  " Windows filesystem
+  set directory=$HOME\VimBackups\swaps,$HOME\VimBackups,C:\VimBackups,.
+  set backupdir=$HOME\VimBackups\backups,$HOME\VimBackups,C:\VimBackups,.
+  if exists("&undodir")
+      set undodir=$HOME\VimBackups\undofiles,$HOME\VimBackups,C:\VimBackups,.
+  endif
+  if has("gui_running")
+    set guifont=Inconsolata:h12:cANSI
+  endif
+  let g:cxxcompiler = "msvc"
+  set grepprg=ag\ --nogroup\ --nocolor
+  " let &shell='cmd.exe /k d:\\work\\shell.bat script'
+  " let &shellcmdflag='/s /c d:\\work\\shell.bat'
 else
-    " POSIX filesystem
-    set directory=$HOME/.backups/swaps,$HOME/.backups,$HOME/tmp,.
-    set backupdir=$HOME/.backups/backups,$HOME/.backups,$HOME/tmp,.
-    if exists("&undodir")
-        set undodir=$HOME/.backups/undofiles,$HOME/.backups,$HOME/tmp,.
-    endif
-    let g:cxxcompiler = "gcc"
+  " POSIX filesystem
+  set directory=$HOME/.backups/swaps,$HOME/.backups,$HOME/tmp,.
+  set backupdir=$HOME/.backups/backups,$HOME/.backups,$HOME/tmp,.
+  if exists("&undodir")
+      set undodir=$HOME/.backups/undofiles,$HOME/.backups,$HOME/tmp,.
+  endif
+  let g:cxxcompiler = "gcc"
 endif
 
 " }}}
@@ -220,11 +223,8 @@ tnoremap <Esc> <C-\><C-n>
 " CPP: {{{
 function! SetCXXErrformat()
     if g:cxxcompiler == "gcc"
-        " copied from default errorformat
-        setlocal errorformat="%*[^"]"%f"%*\D%l: %m,"%f"%*\D%l: %m,%-G%f:%l: (Each undeclared identifier is reported only once,%-G%f:%l: for each function it appears in.),%-GIn file included from %f:%l:%c:,%-GIn file included from %f:%l:%c\,,%-GIn file included from %f:%l:%c,%-GIn file included from %f:%l,%-G%*[ ]from %f:%l:%c,%-G%*[ ]from %f:%l:,%-G%*[ ]from %f:%l\,,%-G%*[ ]from %f:%l,%f:%l:%c:%m,%f(%l):%m,%f:%l:%m,"%f"\,line %l%*\D%c%*[^ ] %m,%D%*\a[%*\d]: Entering directory %*[`']%f',%X%*\a[%*\d]: Leaving directory %*[`']%f',%D%*\a: Entering directory %*[`']%f',%X%*\a: Leaving directory %*[`']%f',%DMaking %*\a in %f,%f|%l| %m"
-    else
-        " NOTE: untested! Maybe once I get nvim setup on Windows. Maybe.
-        setlocal errorformat=%*[0-9]%*[>]\ %#%f(%l):\ %m
+      " copied from default errorformat
+      setlocal errorformat="%*[^"]"%f"%*\D%l: %m,"%f"%*\D%l: %m,%-G%f:%l: (Each undeclared identifier is reported only once,%-G%f:%l: for each function it appears in.),%-GIn file included from %f:%l:%c:,%-GIn file included from %f:%l:%c\,,%-GIn file included from %f:%l:%c,%-GIn file included from %f:%l,%-G%*[ ]from %f:%l:%c,%-G%*[ ]from %f:%l:,%-G%*[ ]from %f:%l\,,%-G%*[ ]from %f:%l,%f:%l:%c:%m,%f(%l):%m,%f:%l:%m,"%f"\,line %l%*\D%c%*[^ ] %m,%D%*\a[%*\d]: Entering directory %*[`']%f',%X%*\a[%*\d]: Leaving directory %*[`']%f',%D%*\a: Entering directory %*[`']%f',%X%*\a: Leaving directory %*[`']%f',%DMaking %*\a in %f,%f|%l| %m"
     endif
 endfunction
 " I always forget about these

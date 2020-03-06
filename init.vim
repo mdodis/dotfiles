@@ -73,6 +73,7 @@ set autoindent
 set nowrap
 set cursorline
 
+
 if has('win32')
   " Windows filesystem
   set directory=$HOME\VimBackups\swaps,$HOME\VimBackups,C:\VimBackups,.
@@ -80,13 +81,9 @@ if has('win32')
   if exists("&undodir")
       set undodir=$HOME\VimBackups\undofiles,$HOME\VimBackups,C:\VimBackups,.
   endif
-  if has("gui_running")
-    set guifont=Inconsolata:h12:cANSI
-  endif
+
   let g:cxxcompiler = "msvc"
   set grepprg=ag\ --nogroup\ --nocolor
-  " let &shell='cmd.exe /k d:\\work\\shell.bat script'
-  " let &shellcmdflag='/s /c d:\\work\\shell.bat'
 else
   " POSIX filesystem
   set directory=$HOME/.backups/swaps,$HOME/.backups,$HOME/tmp,.
@@ -125,7 +122,8 @@ hi WildMenu ctermfg=3 ctermbg=0
 "" Ignore common non-text files
 set wildignore+=*.bmp,*.gif,*.ico,*.jpg,*.png,*.ico     " Images
 set wildignore+=*.pdf,*.psd                             " Documents
-set wildignore+=*.so,*.o,*.lib,*.dll,*.pdb              " object files
+set wildignore+=*.so,*.o,*.exe,*.out,*.lib,*.dll,*.pdb  " object files
+set wildignore+=*.obj
 set wildignore+=node_modules/*,bower_components/*       "directories
 " }}}
 " GREPING: {{{
@@ -142,6 +140,7 @@ if executable('ag')
 endif
 " }}}
 " EXTRA: {{{
+set guifont=Liberation\ Mono:h9
 set path+=**            " clever'r completion
 set ignorecase smartcase
 set exrc " add .nvimrc file to your project's root folder for project-specific stuff

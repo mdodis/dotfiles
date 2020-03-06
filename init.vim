@@ -76,20 +76,20 @@ set cursorline
 
 if has('win32')
   " Windows filesystem
-  set directory=$HOME\VimBackups\swaps,$HOME\VimBackups,C:\VimBackups,.
-  set backupdir=$HOME\VimBackups\backups,$HOME\VimBackups,C:\VimBackups,.
+  set directory=$HOME\VimBackups\swaps,$HOME\VimBackups,C:\VimBackups
+  set backupdir=$HOME\VimBackups\backups,$HOME\VimBackups,C:\VimBackups
   if exists("&undodir")
-      set undodir=$HOME\VimBackups\undofiles,$HOME\VimBackups,C:\VimBackups,.
+      set undodir=$HOME\VimBackups\undofiles,$HOME\VimBackups,C:\VimBackups
   endif
 
   let g:cxxcompiler = "msvc"
   set grepprg=ag\ --nogroup\ --nocolor
 else
   " POSIX filesystem
-  set directory=$HOME/.backups/swaps,$HOME/.backups,$HOME/tmp,.
-  set backupdir=$HOME/.backups/backups,$HOME/.backups,$HOME/tmp,.
+  set directory=$HOME/.backups/swaps,$HOME/.backups,$HOME/tmp
+  set backupdir=$HOME/.backups/backups,$HOME/.backups,$HOME/tmp
   if exists("&undodir")
-      set undodir=$HOME/.backups/undofiles,$HOME/.backups,$HOME/tmp,.
+      set undodir=$HOME/.backups/undofiles,$HOME/.backups,$HOME/tmp
   endif
   let g:cxxcompiler = "gcc"
 endif

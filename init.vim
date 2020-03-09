@@ -52,7 +52,6 @@ let g:netrw_winsize = 25
 set foldmethod=marker
 set foldmarker={{{,}}}
 
-autocmd BufWritePre * %s/\s\+$//e
 set nonumber " Look at the bottom left
 set showcmd  " I don't know why
 set mouse=a  " Mouse is sometimes good for browsing
@@ -65,12 +64,12 @@ set clipboard=unnamedplus
 set nohlsearch
 set incsearch
 " Make indenting normal
-set tabstop     =4
-set softtabstop =4
-set shiftwidth  =4
-set expandtab
-set autoindent
-set nowrap
+"set tabstop     =4
+"set softtabstop =4
+"set shiftwidth  =4
+"set expandtab
+"set autoindent
+"set nowrap
 set cursorline
 
 
@@ -243,10 +242,17 @@ augroup group_c_cpp
     autocmd Filetype            c,cpp                       :call SetCXXErrformat()
     autocmd Filetype            c,cpp                       setlocal makeprg=make
 
+    autocmd BufWritePre         c,cpp                       %s/\s\+$//e
     autocmd Filetype            c,cpp                       :nnoremap <F5> :!make run > output & disown<cr><cr>
     autocmd Filetype            c,cpp                       :nnoremap <F6> :silent make clean\|redraw!
     " NOTE: comment this to disable "snippets"
     autocmd Filetype            c,cpp                       call BindCSnippets()
+    autocmd Filetype            c,cpp                       setlocal tabstop=4 softtabstop=4 shiftwidth=4 expandtab autoindent nowrap
+augroup END
+
+augroup group_makefile
+    autocmd!
+    autocmd Filetype            make                        setlocal noexpandtab shiftwidth=8 softtabstop=8
 augroup END
 
 augroup group_rustlang

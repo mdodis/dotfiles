@@ -64,12 +64,12 @@ set clipboard=unnamedplus
 set nohlsearch
 set incsearch
 " Make indenting normal
-"set tabstop     =4
-"set softtabstop =4
-"set shiftwidth  =4
-"set expandtab
-"set autoindent
-"set nowrap
+set tabstop     =4
+set softtabstop =4
+set shiftwidth  =4
+set expandtab
+set autoindent
+set nowrap
 set cursorline
 
 

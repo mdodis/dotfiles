@@ -16,7 +16,7 @@ Comment=4Coder
 Path=/home/miked/work/
 
 # The executable of the application, possibly with arguments.
-Exec="/home/miked/.local/bin/4coder-linux-x64-super/4coder/4ed" -f 11
+Exec="/home/miked/.local/bin/4coder/4ed" -f 11
 
 # The name of the icon that will be used to display this entry
 

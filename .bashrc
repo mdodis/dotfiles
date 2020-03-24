@@ -14,13 +14,14 @@ export XDG_CURRENT_DESKTOP=XFCE                 # Fixes some QT apps
 export PKG_CONFIG_PATH="/usr/lib/pkgconfig"     # Yup
 export EDITOR="/usr/bin/nvim"                   # don't even ask why
 
+export MOZ_USE_XINPUT2=1
 export LS_COLORS="$LS_COLORS:ow=1;34:tw=1;34:"  # ls outputs bad colors on o+w folders
 export NVIM_TUI_ENABLE_TRUE_COLOR=1             # when I was trying to get full-color
 export QT_QPA_PLATFORMTHEME=qt5ct
 # Sexy prompt that only looks good if bold isn't bright
 export PS1="\[\e[1;30;44m\]\h\[\e[m\]\[\e[1;30;42m\]\u\[\e[m\] \W)⮞ "
 export QEMU_AUDIO_DRV=alsa
-
+export MC_SKIN="$HOME/dotfiles/solarized.ini"
 export LIBVA_DRIVER_NAME
 
 alias open='xdg-open 2>/dev/null >/dev/null'
@@ -35,12 +36,12 @@ alias protoc='python -m grpc_tools.protoc'
 alias vi=nvim                                   # neovim
 alias vim=nvim                                  # Neovim!
 alias VIM=nvim                                  # NEOVIM!
-alias 4ed="~/.local/bin/4coder-linux-x64-super/4coder/4ed -f 11"
+alias 4ed="~/.local/bin/4coder/4ed -f 11"
 # Don't even understand how it works, but I still want to customize it. Yay.
 #alias nethack="NETHACKOPTIONS=DECGraphics=true,statushilites:10,showexp,time=true,rest_on_space=false,autopickup=false nethack"
 alias nethack="NETHACKOPTIONS=showexp,time=true,rest_on_space=false,autopickup=false,perm_invent,windowtype:curses nethack"
-
-alias openvpn="sudo openvpn --config ~/Documents/client.ovpn"
+alias ftpserv="python ~/work/tools/ftpserv.py"
+alias icsvpn="sudo openvpn --config ~/Documents/client.ovpn"
 # Why would any sane person want an installer to change
 # their shell config, adding a bunch of milliseconds on
 # startup? Seriously, we had package managers to manage package

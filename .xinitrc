@@ -48,6 +48,4 @@ blueman-applet &
 dbus-launch nm-applet &
 # dbus-launch perf record --call-graph dwarf dwm
 exec dbus-launch dwm
-
-
-
+# exec dbus-launch xfwm4

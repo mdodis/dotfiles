@@ -1,0 +1,2 @@
+#!/bin/bash
+# rsync -naP --exclude-from=rsync-homedir-local.txt /home/$USER/ /mnt/External/$USER/
